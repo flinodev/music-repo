@@ -10,7 +10,7 @@ draft: false
 
 Tono: Do M
 
-## Table of contents
+## Tabla de contenidos
 
 ## Detalles
 - Tono: La m
