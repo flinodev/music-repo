@@ -1,5 +1,5 @@
 export const SITE = {
-  website: "https://repo-music.info/",
+  website: "https://music-repo-nu.vercel.app/",
   author: "Francisco Lino",
   profile: "https://flino.dev",
   desc: "Un espacio dedicado a la recopilación de notas musicales.",
