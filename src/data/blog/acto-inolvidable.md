@@ -109,10 +109,11 @@ y radiando hoy de gozo celebramos santa cena.
 - LC
 - MP
 - MG
-- GA
+- GG
 
 ### Melódica 1era voz
 - GC
+- MV
 
 ## Consideraciones
 

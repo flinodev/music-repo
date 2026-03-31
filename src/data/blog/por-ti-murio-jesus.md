@@ -157,10 +157,11 @@ Solo por ti, _solo por ti_, solo por tí
 - LC
 - MP
 - EM
-- GA
+- GG
 
 ### Melódica 1era voz
 - GC
+- MV
 
 ## Consideraciones
 
