@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
+import rehypeSlug from "rehype-slug";
 import {
   transformerNotationDiff,
   transformerNotationHighlight,
@@ -24,7 +25,11 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    remarkPlugins: [
+      [remarkToc, { maxDepth: 3, tight: true, heading: "Tabla de contenidos" }],
+      [remarkCollapse, { test: "Tabla de contenidos" }]
+    ],
+    rehypePlugins: [rehypeSlug],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "github-dark-default" },

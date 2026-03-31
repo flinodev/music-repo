@@ -1,0 +1,128 @@
+---
+export interface Props {
+  sectionId: string;
+  filename?: string;
+  buttonText?: string;
+}
+
+const { sectionId, filename = "documento.pdf", buttonText = "Exportar PDF" } = Astro.props;
+---
+
+<button
+  id={`export-btn-${sectionId}`}
+  data-section-id={sectionId}
+  data-filename={filename}
+  class="export-pdf-btn"
+  aria-label={`Exportar ${filename}`}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline points="7 10 12 15 17 10"></polyline>
+    <line x1="12" y1="15" x2="12" y2="3"></line>
+  </svg>
+  <span>{buttonText}</span>
+</button>
+
+<style>
+  .export-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .export-pdf-btn:hover {
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .export-pdf-btn:active {
+    transform: translateY(0);
+  }
+
+  .export-pdf-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .export-pdf-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+</style>
+
+<script>
+  import html2pdf from 'html2pdf.js';
+
+  function setupExportButtons() {
+    const buttons = document.querySelectorAll('.export-pdf-btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const btn = button as HTMLButtonElement;
+        const sectionId = btn.dataset.sectionId;
+        const filename = btn.dataset.filename || 'documento.pdf';
+
+        if (!sectionId) return;
+
+        const section = document.getElementById(sectionId);
+        if (!section) {
+          console.error(`Section with id "${sectionId}" not found`);
+          return;
+        }
+
+        // Deshabilitar botón durante la generación
+        btn.disabled = true;
+        const originalText = btn.querySelector('span')?.textContent;
+        const span = btn.querySelector('span');
+        if (span) span.textContent = 'Generando PDF...';
+
+        try {
+          const opt = {
+            margin: [10, 10],
+            filename: filename,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          };
+
+          await html2pdf().set(opt).from(section).save();
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+          alert('Error al generar el PDF. Por favor, intenta de nuevo.');
+        } finally {
+          // Restaurar botón
+          btn.disabled = false;
+          if (span && originalText) span.textContent = originalText;
+        }
+      });
+    });
+  }
+
+  // Setup on load
+  setupExportButtons();
+
+  // Setup after navigation (for view transitions)
+  document.addEventListener('astro:after-swap', setupExportButtons);
+</script>

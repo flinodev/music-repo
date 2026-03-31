@@ -374,6 +374,17 @@ const nextPost =
   }
   addHeadingLinks();
 
+  /** Translate "Open" to "Abrir" in table of contents */
+  function translateTOC() {
+    const summaries = document.querySelectorAll('summary');
+    summaries.forEach(summary => {
+      if (summary.textContent.startsWith('Open ')) {
+        summary.textContent = summary.textContent.replace('Open ', 'Abrir ');
+      }
+    });
+  }
+  translateTOC();
+
   /** Attaches copy buttons to code blocks in the document,
    * allowing users to copy code easily. */
   function attachCopyButtons() {
@@ -428,6 +439,104 @@ const nextPost =
   document.addEventListener("astro:after-swap", () =>
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
+
+  /** Add PDF export buttons to sections */
+  function addPDFExportButtons() {
+    const article = document.getElementById('article');
+    if (!article) return;
+
+    // Find all h2 headings (main sections)
+    const headings = article.querySelectorAll('h2');
+
+    headings.forEach((heading) => {
+      // Only add button to "Letra" section
+      // Remove the # link from the text before checking
+      const headingText = heading.textContent.replace('#', '').trim().toLowerCase();
+
+      // Check if heading contains "letra"
+      if (!headingText.includes('letra')) {
+        return;
+      }
+
+      // Skip if already has a button
+      if (heading.nextElementSibling?.classList.contains('pdf-export-section')) {
+        return;
+      }
+
+      const headingId = heading.id;
+      if (!headingId) return;
+
+      // Create button container
+      const buttonContainer = document.createElement('div');
+      buttonContainer.className = 'pdf-export-section';
+      buttonContainer.style.cssText = 'margin: 1rem 0; text-align: right;';
+
+      // Create export button
+      const button = document.createElement('button');
+      button.className = 'pdf-export-btn';
+      button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Exportar PDF</span>
+      `;
+
+      button.onclick = () => {
+        // Find the section content (from this h2 until the next h2 or end)
+        // Skip the h2 heading itself, only get the content
+        const sectionContent = [];
+
+        let nextElement = heading.nextElementSibling;
+        while (nextElement && nextElement.tagName !== 'H2') {
+          if (!nextElement.classList.contains('pdf-export-section')) {
+            sectionContent.push(nextElement.outerHTML);
+          }
+          nextElement = nextElement.nextElementSibling;
+        }
+
+        // Create a new window with the content
+        const printWindow = window.open('', '_blank');
+        const postTitle = document.title.split(' | ')[0];
+
+        const htmlParts = [
+          '<!DOCTYPE html>',
+          '<html><head>',
+          '<meta charset="utf-8">',
+          '<title>' + postTitle + ' - ' + headingId + '</title>',
+          '<style>',
+          'body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.5; color: #000; font-size: 26px; }',
+          'p { margin: 15px 0; font-size: 26px; font-family: Arial, sans-serif; line-height: 1.5; }',
+          'div { font-size: 26px; font-family: Arial, sans-serif; line-height: 1.5; }',
+          '.text-center { text-align: center; }',
+          '@media print { body { margin: 0; padding: 20px; font-size: 26px; line-height: 1.5; } p, div { font-size: 26px; line-height: 1.5; } }',
+          '</style>',
+          '</head><body>',
+          sectionContent.join('\\n'),
+          '<' + 'script>window.onload = function() { window.print(); setTimeout(function() { window.close(); }, 100); }<' + '/script>',
+          '</body></html>'
+        ];
+
+        printWindow.document.write(htmlParts.join(''));
+        printWindow.document.close();
+      };
+
+      buttonContainer.appendChild(button);
+      heading.parentNode.insertBefore(buttonContainer, heading.nextSibling);
+    });
+  }
+
+  // Run on load
+  setTimeout(() => {
+    console.log('Running addPDFExportButtons');
+    addPDFExportButtons();
+  }, 500);
+
+  // Re-run after navigation
+  document.addEventListener('astro:after-swap', () => {
+    setTimeout(addPDFExportButtons, 500);
+  });
 </script>
 
 <style>
@@ -525,5 +634,45 @@ const nextPost =
     .post-nav-bg {
       will-change: opacity;
     }
+  }
+
+  /* PDF Export Button Styles */
+  .pdf-export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+
+  .pdf-export-btn:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  .pdf-export-btn:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .pdf-export-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .pdf-export-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 </style>
