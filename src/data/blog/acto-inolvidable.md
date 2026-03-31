@@ -8,12 +8,11 @@ featured: true
 draft: false
 ---
 
-Tono: Do M
 
 ## Tabla de contenidos
 
 ## Detalles
-- Tono: La m
+- Tono: Do M
 - Compás: 4/4
 
 ## Notas musicales
@@ -110,6 +109,7 @@ y radiando hoy de gozo celebramos santa cena.
 - LC
 - MP
 - MG
+- GA
 
 ### Melódica 1era voz
 - GC
