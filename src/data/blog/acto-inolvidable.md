@@ -29,8 +29,6 @@ Tono: Do M
 //20 - 20 - 11<sup>T</sup> - 10 - 11<sup>T</sup> - 10 - 10 - 25<sup>T</sup>//  
 25 - 25 - 10<sup>T</sup> - 25 - 23 - 22 - 23<sup>T</sup>  
 
-_Asignaciones_: ER, VC, EM  
-
 ---
 
 ### Mandolina 2da voz
@@ -44,8 +42,6 @@ _Asignaciones_: ER, VC, EM
 //45 - 45 - 20<sup>T</sup> - 35 - 20<sup>T</sup> - 35 - 35 - 33<sup>T</sup>//  
 33 - 33 - 35<sup>T</sup> - 33 - 32 - 30 - 32<sup>T</sup> 
 
-_Asignaciones_: LC, MP, MG  
-
 ---
 
 ### Melódica 1era voz
@@ -58,8 +54,6 @@ Mi<sub>4</sub> - Fa<sub>4</sub> - La<sub>4</sub> - Sol<sub>4</sub>
 Sol<sub>4</sub> - Sol<sub>4</sub> - La<sub>4</sub> - Sol<sub>4</sub> - La<sub>4</sub> - Fa<sub>4</sub> - Mi<sub>4</sub>  
 //La<sub>3</sub> - La<sub>3</sub> - Fa<sub>4</sub> - Mi<sub>4</sub> - Fa<sub>4</sub> - Mi<sub>4</sub> - Mi<sub>4</sub> - Re<sub>4</sub>//   
 Re<sub>4</sub> - Re<sub>4</sub> - Mi<sub>4</sub> - Re<sub>4</sub> - Do<sub>4</sub> - Si<sub>3</sub> - Do<sub>4</sub>
-
-_Asignaciones_: GC 
 
 ---
 
@@ -104,6 +98,21 @@ y radiando hoy de gozo celebramos santa cena.
   </iframe>
 </div>
 
+
+## Asignaciones
+
+### Mandolina - Violin 1era voz
+- ER 
+- VC
+- EM
+
+### Mandolina - Violin 2da voz
+- LC
+- MP
+- MG
+
+### Melódica 1era voz
+- GC
 
 ## Consideraciones
 
