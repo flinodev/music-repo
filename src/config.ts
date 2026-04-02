@@ -1,6 +1,6 @@
 export const SITE = {
   website: "https://music-repo-nu.vercel.app/",
-  author: "Francisco Lino",
+  author: "flinodev",
   profile: "https://flino.dev",
   desc: "Un espacio dedicado a la recopilación de notas musicales.",
   title: "Music~Repo",
@@ -25,7 +25,7 @@ export const SITE = {
   editPost: {
     enabled: true,
     text: "Edit this post",
-    url: "https://github.com/0xdres/astro-devosfera/edit/main/",
+    url: "https://github.com/flinodev/music-repo/edit/main/",
   },
   dynamicOgImage: true,
   dir: "ltr", // "rtl" | "auto"
