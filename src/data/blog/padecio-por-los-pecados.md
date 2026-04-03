@@ -20,8 +20,9 @@ draft: false
 
 <div class="text-center">
 
-Padeció por los pecados   
-   
+**Padeció por los pecados**  
+
+I   
 Crucificaron al Salvador   
 le dieron muerte sin compasión   
 heridas fueron sus manos con clavos   
@@ -32,7 +33,8 @@ Siendo el Rey, Rey de los reyes
 no le importó dejar su trono   
 Él padeció por los pecados   
 para librarnos de condenación.   
-   
+
+II  
 Querido amigo acepta ahora   
 la inivitación de Jesucristo   
 por tus pecados él dio su vida   
