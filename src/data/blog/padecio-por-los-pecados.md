@@ -1,9 +1,10 @@
 ---
 title: "Padeció por los pecados"
 description: Crucificaron al Salvador le dieron muerte sin compasión... Siendo el Rey, Rey de los reyes no le importó dejar su trono.
-pubDatetime: 2026-04-14:50:00Z
+pubDatetime: 2026-04-03T14:50:00Z
 tags:
   - Evangelismo
+  - Crucifixión
 featured: false
 draft: false
 ---
