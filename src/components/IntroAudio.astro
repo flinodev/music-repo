@@ -21,10 +21,13 @@ const {
 } = Astro.props;
 const isStream = streamOverride ?? /^https?:\/\//i.test(src);
 const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).padStart(2, "0")}`;
+
+// Generate unique ID for this instance
+const uniqueId = `intro-audio-${Math.random().toString(36).substring(2, 11)}`;
 ---
 
 <div
-  id="intro-audio-player"
+  id={uniqueId}
   class:list={["intro-audio-wrap", className, { "is-stream": isStream }]}
   data-src={src}
   data-label={label}
@@ -39,14 +42,14 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
 
   <!-- Botón play/pause -->
   <button
-    id="intro-audio-btn"
+    id={`${uniqueId}-btn`}
     class="intro-audio-btn"
     aria-label="Reproducir audio de introducción"
     type="button"
   >
     <!-- Ícono play -->
     <svg
-      id="intro-icon-play"
+      id={`${uniqueId}-icon-play`}
       class="intro-icon"
       viewBox="0 0 16 16"
       fill="currentColor"
@@ -58,7 +61,7 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
     </svg>
     <!-- Ícono pause -->
     <svg
-      id="intro-icon-pause"
+      id={`${uniqueId}-icon-pause`}
       class="intro-icon hidden"
       viewBox="0 0 16 16"
       fill="currentColor"
@@ -71,7 +74,7 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
   </button>
 
   <!-- Barras de onda (animadas durante reproducción) -->
-  <div class="intro-waveform" id="intro-waveform" aria-hidden="true">
+  <div class="intro-waveform" id={`${uniqueId}-waveform`} aria-hidden="true">
     {
       Array.from({ length: 8 }).map((_, i) => (
         <span
@@ -87,7 +90,7 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
     !isStream && (
       <div
         class="intro-progress-track"
-        id="intro-progress-track"
+        id={`${uniqueId}-progress-track`}
         role="slider"
         tabindex="0"
         aria-valuenow={0}
@@ -95,7 +98,7 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
         aria-valuemax={duration}
         aria-label="Control de progreso del audio"
       >
-        <div class="intro-progress-bar" id="intro-progress-bar"></div>
+        <div class="intro-progress-bar" id={`${uniqueId}-progress-bar`}></div>
       </div>
     )
   }
@@ -105,9 +108,9 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
     isStream ? (
       <span class="intro-live-pill" aria-live="off">LIVE</span>
     ) : (
-      <span class="intro-time" id="intro-time" aria-live="off">
-        <span id="intro-current">0:00</span><span class="opacity-30"> /</span><span
-          id="intro-total"
+      <span class="intro-time" id={`${uniqueId}-time`} aria-live="off">
+        <span id={`${uniqueId}-current`}>0:00</span><span class="opacity-30"> /</span><span
+          id={`${uniqueId}-total`}
           class="opacity-30"
         >
           {formattedDuration}</span
@@ -311,13 +314,6 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
 </style>
 
 <script>
-  import {
-    getIntroAudioStore,
-    emitIntroAudioState,
-    INTRO_AUDIO_STATE_EVENT,
-    type IntroAudioState,
-  } from "@/utils/introAudioStore";
-
   const pad = (n: number) => String(n).padStart(2, "0");
   const fmt = (secs: number) => {
     const s = Math.max(0, Math.floor(secs));
@@ -325,143 +321,145 @@ const formattedDuration = `${Math.floor(duration / 60)}:${String(duration % 60).
   };
 
   function initIntroAudio() {
-    const wrap = document.getElementById(
-      "intro-audio-player"
-    ) as HTMLElement | null;
-    const btn = document.getElementById(
-      "intro-audio-btn"
-    ) as HTMLButtonElement | null;
-    const iconPlay = document.getElementById(
-      "intro-icon-play"
-    ) as SVGElement | null;
-    const iconPause = document.getElementById(
-      "intro-icon-pause"
-    ) as SVGElement | null;
-    const bar = document.getElementById(
-      "intro-progress-bar"
-    ) as HTMLElement | null;
-    const track = document.getElementById(
-      "intro-progress-track"
-    ) as HTMLElement | null;
-    const current = document.getElementById(
-      "intro-current"
-    ) as HTMLElement | null;
-    const totalLabel = document.getElementById(
-      "intro-total"
-    ) as HTMLElement | null;
+    const players = document.querySelectorAll(".intro-audio-wrap");
 
-    if (!wrap || !btn) return;
-    if (wrap.dataset.introAudioInitialized === "true") return;
-    wrap.dataset.introAudioInitialized = "true";
+    players.forEach((wrap) => {
+      if (!(wrap instanceof HTMLElement)) return;
+      if (wrap.dataset.introAudioInitialized === "true") return;
+      wrap.dataset.introAudioInitialized = "true";
 
-    const src = wrap.dataset.src ?? "";
-    const label = wrap.dataset.label ?? "INTRO.MP3";
-    const durationHint = Number(wrap.dataset.duration ?? "0");
-    const isStream = wrap.dataset.stream === "true";
-    const store = getIntroAudioStore({ src, label, isStream, durationHint });
+      const playerId = wrap.id;
+      const btn = document.getElementById(
+        `${playerId}-btn`
+      ) as HTMLButtonElement | null;
+      const iconPlay = document.getElementById(
+        `${playerId}-icon-play`
+      ) as SVGElement | null;
+      const iconPause = document.getElementById(
+        `${playerId}-icon-pause`
+      ) as SVGElement | null;
+      const bar = document.getElementById(
+        `${playerId}-progress-bar`
+      ) as HTMLElement | null;
+      const track = document.getElementById(
+        `${playerId}-progress-track`
+      ) as HTMLElement | null;
+      const current = document.getElementById(
+        `${playerId}-current`
+      ) as HTMLElement | null;
+      const totalLabel = document.getElementById(
+        `${playerId}-total`
+      ) as HTMLElement | null;
 
-    const playLabel = isStream ? "Reproducir radio en vivo" : "Reproducir audio de introducción";
-    const pauseLabel = isStream ? "Pausar radio" : "Pausar audio de introducción";
+      if (!wrap || !btn) return;
 
-    const setPlaying = (playing: boolean) => {
-      wrap.classList.toggle("playing", playing);
-      iconPlay?.classList.toggle("hidden", playing);
-      iconPause?.classList.toggle("hidden", !playing);
-      btn.setAttribute("aria-label", playing ? pauseLabel : playLabel);
-    };
+      const src = wrap.dataset.src ?? "";
+      const label = wrap.dataset.label ?? "INTRO.MP3";
+      const durationHint = Number(wrap.dataset.duration ?? "0");
+      const isStream = wrap.dataset.stream === "true";
 
-    const render = (state: IntroAudioState) => {
-      if (state.src !== src) return;
+      // Create independent audio element for this player
+      const audio = new Audio(src);
+      audio.preload = isStream ? "none" : "metadata";
 
-      setPlaying(state.playing);
+      const playLabel = isStream ? "Reproducir radio en vivo" : "Reproducir audio de introducción";
+      const pauseLabel = isStream ? "Pausar radio" : "Pausar audio de introducción";
 
-      if (state.isStream) {
-        return;
-      }
+      const setPlaying = (playing: boolean) => {
+        wrap.classList.toggle("playing", playing);
+        iconPlay?.classList.toggle("hidden", playing);
+        iconPause?.classList.toggle("hidden", !playing);
+        btn.setAttribute("aria-label", playing ? pauseLabel : playLabel);
+      };
 
-      const total = state.duration;
-      const now = state.currentTime;
-      const pct = total > 0 ? (now / total) * 100 : 0;
+      const updateUI = () => {
+        setPlaying(!audio.paused);
 
-      if (bar) bar.style.width = `${pct}%`;
-
-      const nowStr = fmt(now);
-      if (current && current.textContent !== nowStr) {
-        current.textContent = nowStr;
-      }
-      
-      if (track) {
-        track.setAttribute("aria-valuenow", String(Math.floor(now)));
-        const maxVal = String(Math.max(total, 0));
-        if (track.getAttribute("aria-valuemax") !== maxVal) {
-          track.setAttribute("aria-valuemax", maxVal);
+        if (isStream) {
+          return;
         }
-      }
-      
-      if (totalLabel) {
-        const totalStr = fmt(total);
-        if (totalLabel.textContent !== totalStr) {
-          totalLabel.textContent = totalStr;
+
+        const total = audio.duration || durationHint;
+        const now = audio.currentTime;
+        const pct = total > 0 ? (now / total) * 100 : 0;
+
+        if (bar) bar.style.width = `${pct}%`;
+
+        const nowStr = fmt(now);
+        if (current && current.textContent !== nowStr) {
+          current.textContent = nowStr;
         }
-      }
-    };
 
-    btn.addEventListener("click", () => {
-      if (store.audio.paused) {
-        store.audio.play().catch(() => {
-          /* reproduccion bloqueada por el navegador */
-        });
-      } else {
-        store.audio.pause();
-      }
+        if (track) {
+          track.setAttribute("aria-valuenow", String(Math.floor(now)));
+          const maxVal = String(Math.max(total, 0));
+          if (track.getAttribute("aria-valuemax") !== maxVal) {
+            track.setAttribute("aria-valuemax", maxVal);
+          }
+        }
+
+        if (totalLabel) {
+          const totalStr = fmt(total);
+          if (totalLabel.textContent !== totalStr) {
+            totalLabel.textContent = totalStr;
+          }
+        }
+      };
+
+      // Audio event listeners
+      audio.addEventListener("play", updateUI);
+      audio.addEventListener("pause", updateUI);
+      audio.addEventListener("ended", updateUI);
+      audio.addEventListener("timeupdate", updateUI);
+      audio.addEventListener("loadedmetadata", updateUI);
+      audio.addEventListener("durationchange", updateUI);
+
+      btn.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play().catch(() => {
+            /* reproduccion bloqueada por el navegador */
+          });
+        } else {
+          audio.pause();
+        }
+      });
+
+      // Clic en la barra de progreso para saltar
+      track?.addEventListener("click", (e: MouseEvent) => {
+        if (isStream) return;
+        const rect = track.getBoundingClientRect();
+        const ratio = (e.clientX - rect.left) / rect.width;
+        const total = audio.duration || durationHint;
+        if (total > 0) {
+          audio.currentTime = ratio * total;
+        }
+      });
+
+      // Teclado en la barra de progreso para saltar
+      track?.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (isStream) return;
+        const total = audio.duration || durationHint;
+        if (total <= 0) return;
+
+        if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+          e.preventDefault();
+          audio.currentTime = Math.min(audio.currentTime + 5, total);
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+          e.preventDefault();
+          audio.currentTime = Math.max(audio.currentTime - 5, 0);
+        }
+      });
+
+      // Cleanup on page navigation
+      document.addEventListener(
+        "astro:before-swap",
+        () => {
+          audio.pause();
+          audio.src = "";
+        },
+        { once: true }
+      );
     });
-
-    // Clic en la barra de progreso para saltar
-    track?.addEventListener("click", (e: MouseEvent) => {
-      if (isStream) return;
-      const rect = track.getBoundingClientRect();
-      const ratio = (e.clientX - rect.left) / rect.width;
-      const total = store.audio.duration || durationHint;
-      if (total > 0) {
-        store.audio.currentTime = ratio * total;
-      }
-    });
-
-    // Teclado en la barra de progreso para saltar
-    track?.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (isStream) return;
-      const total = store.audio.duration || durationHint;
-      if (total <= 0) return;
-
-      if (e.key === "ArrowRight" || e.key === "ArrowUp") {
-        e.preventDefault();
-        store.audio.currentTime = Math.min(store.audio.currentTime + 5, total);
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
-        e.preventDefault();
-        store.audio.currentTime = Math.max(store.audio.currentTime - 5, 0);
-      }
-    });
-
-    const controller = new AbortController();
-
-    window.addEventListener(
-      INTRO_AUDIO_STATE_EVENT,
-      (event: Event) => {
-        const customEvent = event as CustomEvent<IntroAudioState>;
-        render(customEvent.detail);
-      },
-      { signal: controller.signal }
-    );
-
-    document.addEventListener(
-      "astro:before-swap",
-      () => {
-        controller.abort();
-      },
-      { once: true }
-    );
-
-    emitIntroAudioState(store);
   }
 
   // Inicializa en carga completa y también en navegación con View Transitions.
