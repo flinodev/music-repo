@@ -5,7 +5,7 @@ pubDatetime: 2026-03-31T10:00:00Z
 tags:
   - Evangelismo
   - Crucifixión
-featured: true
+featured: false
 draft: false
 ---
 
