@@ -1,0 +1,73 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+// Mapeo de nombres de acordes a títulos completos
+const chordMap: Record<string, { title: string; shorthand: string }> = {
+  // Acordes Mayores
+  doMa: { title: "Do Mayor", shorthand: "Do M" },
+  reMa: { title: "Re Mayor", shorthand: "Re M" },
+  miMa: { title: "Mi Mayor", shorthand: "Mi M" },
+  faMa: { title: "Fa Mayor", shorthand: "Fa M" },
+  solMa: { title: "Sol Mayor", shorthand: "Sol M" },
+  laMa: { title: "La Mayor", shorthand: "La M" },
+  siMa: { title: "Si Mayor", shorthand: "Si M" },
+
+  // Acordes menores
+  dome: { title: "Do menor", shorthand: "Do m" },
+  reme: { title: "Re menor", shorthand: "Re m" },
+  mime: { title: "Mi menor", shorthand: "Mi m" },
+  fame: { title: "Fa menor", shorthand: "Fa m" },
+  solme: { title: "Sol menor", shorthand: "Sol m" },
+  lame: { title: "La menor", shorthand: "La m" },
+  sime: { title: "Si menor", shorthand: "Si m" },
+
+  // Acordes Sostenidos Mayores
+  dososMa: { title: "Do Sostenido Mayor", shorthand: "Do# M" },
+  resosMa: { title: "Re Sostenido Mayor", shorthand: "Re# M" },
+  fasosMa: { title: "Fa Sostenido Mayor", shorthand: "Fa# M" },
+  solsosMa: { title: "Sol Sostenido Mayor", shorthand: "Sol# M" },
+  lasosMa: { title: "La Sostenido Mayor", shorthand: "La# M" },
+
+  // Acordes Sostenidos menores
+  dososme: { title: "Do Sostenido menor", shorthand: "Do# m" },
+  resosme: { title: "Re Sostenido menor", shorthand: "Re# m" },
+  fasosme: { title: "Fa Sostenido menor", shorthand: "Fa# m" },
+  solsosme: { title: "Sol Sostenido menor", shorthand: "Sol# m" },
+  lasosme: { title: "La Sostenido menor", shorthand: "La# m" },
+
+  // Acordes Siete
+  do7: { title: "Do 7", shorthand: "Do 7" },
+  re7: { title: "Re 7", shorthand: "Re 7" },
+  mi7: { title: "Mi 7", shorthand: "Mi 7" },
+  fa7: { title: "Fa 7", shorthand: "Fa 7" },
+  sol7: { title: "Sol 7", shorthand: "Sol 7" },
+  la7: { title: "La 7", shorthand: "La 7" },
+  si7: { title: "Si 7", shorthand: "Si 7" },
+
+  // Acordes Sostenidos Siete
+  dosos7: { title: "Do Sostenido 7", shorthand: "Do# 7" },
+  resos7: { title: "Re Sostenido 7", shorthand: "Re# 7" },
+  fasos7: { title: "Fa Sostenido 7", shorthand: "Fa# 7" },
+  solsos7: { title: "Sol Sostenido 7", shorthand: "Sol# 7" },
+  lasos7: { title: "La Sostenido 7", shorthand: "La# 7" },
+};
+
+const chord = chordMap[name];
+
+if (!chord) {
+  throw new Error(`Acorde "${name}" no encontrado. Verifica el nombre del acorde.`);
+}
+---
+
+<div class="chord-container">
+  <h3>{chord.title} ({chord.shorthand})</h3>
+  <img
+    src={`/images/chords/${name}.png`}
+    alt={chord.title}
+    style="border-radius: 10px; height: 145px;"
+  />
+</div>

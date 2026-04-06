@@ -1,0 +1,373 @@
+---
+interface Props {
+  lyrics: string;
+}
+
+const { lyrics } = Astro.props;
+
+// Mapeo de nombres de acordes a shorthands
+const chordMap: Record<string, string> = {
+  // Acordes Mayores
+  doMa: "Do M",
+  reMa: "Re M",
+  miMa: "Mi M",
+  faMa: "Fa M",
+  solMa: "Sol M",
+  laMa: "La M",
+  siMa: "Si M",
+
+  // Acordes menores
+  dome: "Do m",
+  reme: "Re m",
+  mime: "Mi m",
+  fame: "Fa m",
+  solme: "Sol m",
+  lame: "La m",
+  sime: "Si m",
+
+  // Acordes Sostenidos Mayores
+  dososMa: "Do# M",
+  resosMa: "Re# M",
+  fasosMa: "Fa# M",
+  solsosMa: "Sol# M",
+  lasosMa: "La# M",
+
+  // Acordes Sostenidos menores
+  dososme: "Do# m",
+  resosme: "Re# m",
+  fasosme: "Fa# m",
+  solsosme: "Sol# m",
+  lasosme: "La# m",
+
+  // Acordes Siete
+  do7: "Do 7",
+  re7: "Re 7",
+  mi7: "Mi 7",
+  fa7: "Fa 7",
+  sol7: "Sol 7",
+  la7: "La 7",
+  si7: "Si 7",
+
+  // Acordes Sostenidos Siete
+  dosos7: "Do# 7",
+  resos7: "Re# 7",
+  fasos7: "Fa# 7",
+  solsos7: "Sol# 7",
+  lasos7: "La# 7",
+};
+
+// Mapeo completo de acordes (título + shorthand)
+const chordFullMap: Record<string, { title: string; shorthand: string }> = {
+  // Acordes Mayores
+  doMa: { title: "Do Mayor", shorthand: "Do M" },
+  reMa: { title: "Re Mayor", shorthand: "Re M" },
+  miMa: { title: "Mi Mayor", shorthand: "Mi M" },
+  faMa: { title: "Fa Mayor", shorthand: "Fa M" },
+  solMa: { title: "Sol Mayor", shorthand: "Sol M" },
+  laMa: { title: "La Mayor", shorthand: "La M" },
+  siMa: { title: "Si Mayor", shorthand: "Si M" },
+
+  // Acordes menores
+  dome: { title: "Do menor", shorthand: "Do m" },
+  reme: { title: "Re menor", shorthand: "Re m" },
+  mime: { title: "Mi menor", shorthand: "Mi m" },
+  fame: { title: "Fa menor", shorthand: "Fa m" },
+  solme: { title: "Sol menor", shorthand: "Sol m" },
+  lame: { title: "La menor", shorthand: "La m" },
+  sime: { title: "Si menor", shorthand: "Si m" },
+
+  // Acordes Sostenidos Mayores
+  dososMa: { title: "Do Sostenido Mayor", shorthand: "Do# M" },
+  resosMa: { title: "Re Sostenido Mayor", shorthand: "Re# M" },
+  fasosMa: { title: "Fa Sostenido Mayor", shorthand: "Fa# M" },
+  solsosMa: { title: "Sol Sostenido Mayor", shorthand: "Sol# M" },
+  lasosMa: { title: "La Sostenido Mayor", shorthand: "La# M" },
+
+  // Acordes Sostenidos menores
+  dososme: { title: "Do Sostenido menor", shorthand: "Do# m" },
+  resosme: { title: "Re Sostenido menor", shorthand: "Re# m" },
+  fasosme: { title: "Fa Sostenido menor", shorthand: "Fa# m" },
+  solsosme: { title: "Sol Sostenido menor", shorthand: "Sol# m" },
+  lasosme: { title: "La Sostenido menor", shorthand: "La# m" },
+
+  // Acordes Siete
+  do7: { title: "Do 7", shorthand: "Do 7" },
+  re7: { title: "Re 7", shorthand: "Re 7" },
+  mi7: { title: "Mi 7", shorthand: "Mi 7" },
+  fa7: { title: "Fa 7", shorthand: "Fa 7" },
+  sol7: { title: "Sol 7", shorthand: "Sol 7" },
+  la7: { title: "La 7", shorthand: "La 7" },
+  si7: { title: "Si 7", shorthand: "Si 7" },
+
+  // Acordes Sostenidos Siete
+  dosos7: { title: "Do Sostenido 7", shorthand: "Do# 7" },
+  resos7: { title: "Re Sostenido 7", shorthand: "Re# 7" },
+  fasos7: { title: "Fa Sostenido 7", shorthand: "Fa# 7" },
+  solsos7: { title: "Sol Sostenido 7", shorthand: "Sol# 7" },
+  lasos7: { title: "La Sostenido 7", shorthand: "La# 7" },
+};
+
+// Parser del formato ChordPro
+interface Segment {
+  type: 'chord' | 'text';
+  content: string;
+  chordName?: string;
+}
+
+function parseChordPro(input: string): Segment[] {
+  const segments: Segment[] = [];
+  const regex = /\[([^\]]+)\]|([^\[]+)/g;
+  let match;
+
+  while ((match = regex.exec(input)) !== null) {
+    if (match[1]) {
+      // Es un acorde
+      const chordName = match[1];
+      const shorthand = chordMap[chordName] || chordName;
+      segments.push({ type: 'chord', content: shorthand, chordName });
+    } else if (match[2]) {
+      // Es texto
+      segments.push({ type: 'text', content: match[2] });
+    }
+  }
+
+  return segments;
+}
+
+const segments = parseChordPro(lyrics);
+
+// Obtener acordes únicos para crear los dialogs
+const uniqueChords = [...new Set(
+  segments
+    .filter(s => s.type === 'chord' && s.chordName)
+    .map(s => s.chordName!)
+)];
+---
+
+<div class="chord-line-container">
+  <div class="chord-line">
+    {segments.map((segment) => (
+      segment.type === 'chord' ? (
+        <span class="chord-segment">
+          <span
+            class="chord-label clickable-chord"
+            data-chord-name={segment.chordName}
+            data-dialog-id={`chord-dialog-${segment.chordName}`}
+          >
+            {segment.content}
+          </span>
+        </span>
+      ) : (
+        <span class="text-segment">{segment.content}</span>
+      )
+    ))}
+  </div>
+
+  {/* Dialogs para cada acorde único */}
+  {uniqueChords.map((chordName) => {
+    const chord = chordFullMap[chordName];
+    const dialogId = `chord-dialog-${chordName}`;
+    return chord ? (
+      <dialog id={dialogId} class="chord-dialog">
+        <div class="chord-dialog-content">
+          <div class="chord-dialog-header">
+            <div class="chord-dialog-title">{chord.shorthand}</div>
+            <button class="chord-dialog-close" aria-label="Cerrar">✕</button>
+          </div>
+          <img
+            src={`/images/chords/${chordName}.png`}
+            alt={chord.title}
+            class="chord-dialog-image"
+          />
+        </div>
+      </dialog>
+    ) : null;
+  })}
+</div>
+
+<style>
+  .chord-line-container {
+    display: block;
+  }
+
+  .chord-line {
+    display: inline-block;
+    position: relative;
+    line-height: 1.4;
+    font-family: monospace;
+    white-space: pre-wrap;
+    margin: 0.5rem 0;
+  }
+
+  .chord-segment {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    height: 0;
+  }
+
+  .chord-label {
+    position: absolute;
+    top: -0.2em;
+    left: 0;
+    color: #3b82f6;
+    font-weight: 700;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .clickable-chord {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .clickable-chord:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .text-segment {
+    display: inline;
+  }
+
+  /* Estilos del dialog (igual que ChordButton) */
+  .chord-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 1rem;
+    padding: 0;
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: 0;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .chord-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .chord-dialog-content {
+    padding: 1.5rem;
+  }
+
+  .chord-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .chord-dialog-title {
+    margin: 0;
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .chord-dialog-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0.25rem 0.5rem;
+    line-height: 1;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s;
+  }
+
+  .chord-dialog-close:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+
+  .chord-dialog-image {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  /* Estilos para móvil */
+  @media (max-width: 768px) {
+    .chord-line {
+      line-height: 1.5;
+    }
+
+    .chord-label {
+      font-size: 0.85rem;
+      top: -0.05em;
+    }
+
+    .chord-dialog {
+      max-width: 95vw;
+      max-height: 85vh;
+      width: 95vw;
+    }
+
+    .chord-dialog-content {
+      padding: 1rem;
+    }
+
+    .chord-dialog-title {
+      font-size: 1.25rem;
+    }
+
+    .chord-dialog-image {
+      max-height: 70vh;
+      object-fit: contain;
+    }
+  }
+
+  /* Pantallas muy pequeñas */
+  @media (max-width: 480px) {
+    .chord-dialog {
+      max-width: 98vw;
+      width: 98vw;
+      border-radius: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  // Manejadores de eventos para abrir/cerrar diálogos
+  document.addEventListener('DOMContentLoaded', () => {
+    // Abrir dialog al hacer click en un acorde
+    document.querySelectorAll('.clickable-chord').forEach(chordLabel => {
+      chordLabel.addEventListener('click', () => {
+        const dialogId = chordLabel.getAttribute('data-dialog-id');
+        if (dialogId) {
+          const dialog = document.getElementById(dialogId) as HTMLDialogElement;
+          if (dialog) {
+            dialog.showModal();
+          }
+        }
+      });
+    });
+
+    // Cerrar dialog con el botón de cerrar
+    document.querySelectorAll('.chord-dialog-close').forEach(closeBtn => {
+      closeBtn.addEventListener('click', () => {
+        const dialog = closeBtn.closest('dialog') as HTMLDialogElement;
+        if (dialog) {
+          dialog.close();
+        }
+      });
+    });
+
+    // Cerrar dialog al hacer click fuera del contenido
+    document.querySelectorAll('.chord-dialog').forEach(dialog => {
+      dialog.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.tagName === 'DIALOG') {
+          (target as HTMLDialogElement).close();
+        }
+      });
+    });
+  });
+</script>
