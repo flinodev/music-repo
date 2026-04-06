@@ -230,6 +230,15 @@ const uniqueChords = [...new Set(
     display: inline;
   }
 
+  /* Mejorar contraste en modo dark */
+  @media (prefers-color-scheme: dark) {
+    .text-segment {
+      opacity: 1.66;
+      font-weight: 400;
+      color: #707c94;
+    }
+  }
+
   /* Estilos del dialog (igual que ChordButton) */
   .chord-dialog {
     position: fixed;
