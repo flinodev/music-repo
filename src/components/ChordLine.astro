@@ -230,12 +230,10 @@ const uniqueChords = [...new Set(
     display: inline;
   }
 
-  /* Mejorar contraste en modo dark */
+  /* Mejorar contraste en modo dark sin forzar colores */
   @media (prefers-color-scheme: dark) {
     .text-segment {
-      opacity: 1.66;
-      font-weight: 400;
-      color: #707c94;
+      filter: brightness(2.0) contrast(1.3);
     }
   }
 
