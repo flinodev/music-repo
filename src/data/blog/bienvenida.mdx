@@ -1,6 +1,6 @@
 ---
 title: "Bienvenida"
-description: Bienvenida
+description: Gracias, damos a Jesucristo hoy reunidos en un mismo sentir aquí estamos... Ahora nuestros corazones les dan la bienvenida los cubrió la mano del Señor  
 pubDatetime: 2026-04-04T10:00:00Z
 tags:
   - Bienvenida
@@ -9,6 +9,9 @@ draft: false
 ---
 
 import IntroAudio from "@/components/IntroAudio.astro";
+import Chord from '../../components/Chord.astro';
+import ChordButton from '../../components/ChordButton.astro';
+import ChordLine from '../../components/ChordLine.astro';
 
 ## Tabla de contenidos
 
@@ -110,16 +113,85 @@ Re - Mi
 Re - Mi   
 Mi - Re   
 
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin: 1.5rem 0;">
+  <iframe
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+    src="https://www.youtube.com/embed/aytKsG3EqT4"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
+</div>
+
 ---
+
+## Acordes Guitarra
+
+### Acordes himno
+
+<ChordLine lyrics="[solMa]Gracias, damos a [sime]Jesucristo" />
+<ChordLine lyrics="Hoy reu[doMa]nidos en un mismo sen[re7]tir" />
+<ChordLine lyrics="aquí es[solMa]tamos.[mime]"/>
+<ChordLine lyrics="Con gran [lame]gozo en el cora[re7]zón "/>
+<ChordLine lyrics="los reci[solMa]bimos hoy "/>
+<ChordLine lyrics="Pues us[doMa]tedes han llegado hasta a[re7]quí"/>
+<ChordLine lyrics="por su [solMa]bendición[mime]"/>
+<ChordLine lyrics="Es mo[lame]tivo para unirnos y ha[re7]cer"/>
+<ChordLine lyrics="un altar a nuestro [solMa]Dios"/>
+CORO  
+<ChordLine lyrics="A[doMa]hora nuestros cora[re7]zones"/>
+<ChordLine lyrics="les dan la bi[solMa]envenida[sol7]"/>
+<ChordLine lyrics="[doMa]Los cubrió la mano [re7]del Señor[doMa]"/>
+<ChordLine lyrics="en El los reci[mime]bimos."/>
+<ChordLine lyrics="[doMa]Tu voluntad es dar[re7]le la honra[doMa]"/>
+<ChordLine lyrics="La gloria y la alabanza de [mime]corazón"/>
+<ChordLine lyrics="[doMa]Pues estamos se[sime]guros que en esta fi[lame]esta[re7] "/>
+<ChordLine lyrics="De su presencia senti[solMa]rás."/>
+
+### Acordes melodía
+
+<div class="block mt-2">
+  <ChordButton name="mime" />
+  <ChordButton name="reMa" />
+  <ChordButton name="doMa" />
+  <ChordButton name="solMa" />
+  <ChordButton name="reMa" />
+</div>
+
+<div class="block mt-2">
+  <ChordButton name="mime" />
+  <ChordButton name="doMa" />
+  <ChordButton name="reMa" />
+  <ChordButton name="solMa" />
+  <ChordButton name="reMa" />
+</div>
+
+<div class="block mt-2">
+  <ChordButton name="reMa" />
+  <ChordButton name="mime" />
+</div>
+
+<div class="block mt-2">
+  <ChordButton name="reMa" />
+  <ChordButton name="mime" />
+</div>
+
+<div class="block mt-2">
+  <ChordButton name="mime" />
+  <ChordButton name="reMa" />
+</div>
+
+
 
 ## Letra
 <div class="text-center">
 
-**Bienvenida**
-I 
+**Bienvenida**  
+I  
 Gracias, damos a Jesucristo   
 Hoy reunidos en un mismo sentir aquí estamos.  
-Con gran gozo en el corazón  los recibimos hoy   
+Con gran gozo en el corazón los recibimos hoy   
 Pues ustedes han llegado hasta aquí por su bendición   
 Es motivo para unirnos y hacer un altar a nuestro Dios 
 
@@ -162,7 +234,13 @@ Solamente darle gracias a Dios, por esta gran bendición.
 
 ### Melódica 
 - RN
-- DN
+- NN
+
+## Guitarra
+- AN
+- LN
+- EC
+- JP
 
 ## Referencias
 
