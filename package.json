@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
@@ -21,6 +21,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@vercel/analytics": "^2.0.1",
     "astro": "^6.1.2",
+    "astro-pagefind": "^1.8.6",
     "dayjs": "^1.11.19",
     "html2pdf.js": "^0.14.0",
     "lodash.kebabcase": "^4.1.1",
