@@ -415,7 +415,7 @@ const nextPost =
       });
     });
 
-    async function copyCode(block, button) {
+    async function copyCode(block: HTMLElement, button: HTMLElement) {
       const code = block.querySelector("code");
       const text = code?.innerText;
 
@@ -476,7 +476,7 @@ const nextPost =
       button.onclick = () => {
         // Find the section content (from this h2 until the next h2 or end)
         // Skip the h2 heading itself, only get the content
-        const sectionContent = [];
+        const sectionContent: string[] = [];
 
         let nextElement = heading.nextElementSibling;
         while (nextElement && nextElement.tagName !== 'H2') {
