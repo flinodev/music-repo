@@ -488,6 +488,8 @@ const nextPost =
 
         // Create a new window with the content
         const printWindow = window.open('', '_blank');
+        if (!printWindow) return;
+
         const postTitle = document.title.split(' | ')[0];
 
         const htmlParts = [
@@ -513,7 +515,9 @@ const nextPost =
       };
 
       buttonContainer.appendChild(button);
-      heading.parentNode.insertBefore(buttonContainer, heading.nextSibling);
+      if (heading.parentNode) {
+        heading.parentNode.insertBefore(buttonContainer, heading.nextSibling);
+      }
     });
   }
 
