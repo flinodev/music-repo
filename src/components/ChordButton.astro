@@ -207,8 +207,8 @@ const dialogId = `chord-dialog-${name}`;
 </style>
 
 <script>
-  // Manejadores de eventos para abrir/cerrar diálogos
-  document.addEventListener('DOMContentLoaded', () => {
+  // Inicializar manejadores de eventos para acordes
+  function initChordDialogs() {
     // Abrir dialog al hacer click en el botón
     document.querySelectorAll('.chord-button').forEach(button => {
       button.addEventListener('click', () => {
@@ -241,7 +241,8 @@ const dialogId = `chord-dialog-${name}`;
         }
       });
     });
+  }
 
-    // Cerrar dialog con la tecla Escape (ya está integrado en <dialog>)
-  });
+  // Ejecutar en carga inicial y después de cada navegación
+  document.addEventListener('astro:page-load', initChordDialogs);
 </script>

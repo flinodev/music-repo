@@ -304,7 +304,7 @@ const nextPost =
   <Footer />
 </Layout>
 
-<script is:inline data-astro-rerun>
+<script>
   /** Create a progress indicator
    *  at the top */
   function createProgressBar() {
@@ -322,7 +322,6 @@ const nextPost =
     progressContainer.appendChild(progressBar);
     document.body.appendChild(progressContainer);
   }
-  createProgressBar();
 
   /** Update the progress bar
    *  when user scrolls */
@@ -349,7 +348,6 @@ const nextPost =
       { passive: true } // lets the browser optimise scroll handling
     );
   }
-  updateScrollProgress();
 
   /** Attaches links to headings in the document,
    *  allowing sharing of sections easily */
@@ -372,7 +370,6 @@ const nextPost =
       heading.appendChild(link);
     }
   }
-  addHeadingLinks();
 
   /** Translate "Open" to "Abrir" in table of contents */
   function translateTOC() {
@@ -383,7 +380,6 @@ const nextPost =
       }
     });
   }
-  translateTOC();
 
   /** Attaches copy buttons to code blocks in the document,
    * allowing users to copy code easily. */
@@ -433,12 +429,6 @@ const nextPost =
       }, 700);
     }
   }
-  attachCopyButtons();
-
-  /* Go to page start after page swap */
-  document.addEventListener("astro:after-swap", () =>
-    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
-  );
 
   /** Add PDF export buttons to sections */
   function addPDFExportButtons() {
@@ -527,16 +517,23 @@ const nextPost =
     });
   }
 
-  // Run on load
-  setTimeout(() => {
-    console.log('Running addPDFExportButtons');
+  /** Initialize all post features */
+  function initPostFeatures() {
+    createProgressBar();
+    updateScrollProgress();
+    addHeadingLinks();
+    translateTOC();
+    attachCopyButtons();
     addPDFExportButtons();
-  }, 500);
+  }
 
-  // Re-run after navigation
-  document.addEventListener('astro:after-swap', () => {
-    setTimeout(addPDFExportButtons, 500);
-  });
+  // Run on initial page load
+  document.addEventListener("astro:page-load", initPostFeatures);
+
+  // Scroll to top after page swap
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
 </script>
 
 <style>

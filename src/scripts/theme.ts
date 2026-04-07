@@ -105,10 +105,18 @@ setThemeFeature();
 // Runs on view transitions navigation
 document.addEventListener("astro:after-swap", setThemeFeature);
 
-// Set theme-color value before page transition
-// to avoid navigation bar color flickering in Android dark mode
+// Set theme and theme-color BEFORE page swap
+// to prevent flash of unstyled content (FOUC)
 document.addEventListener("astro:before-swap", event => {
   const astroEvent = event;
+
+  // Copy current theme to new document
+  const currentTheme = document.documentElement.getAttribute("data-theme");
+  if (currentTheme) {
+    astroEvent.newDocument.documentElement.setAttribute("data-theme", currentTheme);
+  }
+
+  // Copy theme-color for Android navigation bar
   const bgColor = document
     .querySelector("meta[name='theme-color']")
     ?.getAttribute("content");
