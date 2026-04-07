@@ -10,7 +10,7 @@ draft: false
 
 ## Tabla de contenidos
 
-## Detales
+## Detalles
 - Tono: Si<sub>b</sub> M
 - Compás: 4/4
 

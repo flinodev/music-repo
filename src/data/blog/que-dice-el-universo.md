@@ -10,7 +10,7 @@ draft: false
 
 ## Tabla de contenidos
 
-## Detales
+## Detalles
 - Tono: Do M
 - Compás: 4/4
 

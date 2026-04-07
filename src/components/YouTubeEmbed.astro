@@ -1,0 +1,67 @@
+---
+interface Props {
+  videoId: string;
+  startTime?: number;
+  title?: string;
+}
+
+const { videoId, startTime, title = "YouTube video" } = Astro.props;
+
+// Parámetros para mejor control del player
+const params = new URLSearchParams({
+  ...(startTime && { start: startTime.toString() }),
+  modestbranding: '1',    // Oculta logo de YouTube
+  rel: '0',               // Solo videos relacionados del mismo canal
+  playsinline: '1',       // Reproduce inline en iOS
+  controls: '1',          // Asegura controles visibles
+  enablejsapi: '1',       // Habilita JavaScript API
+});
+
+const embedUrl = `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+---
+
+<div class="youtube-embed">
+  <iframe
+    width="560"
+    height="315"
+    src={embedUrl}
+    title={title}
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<style>
+  .youtube-embed {
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    transform: translateZ(0);
+    will-change: transform;
+    isolation: isolate;
+  }
+
+  .youtube-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: none;
+    display: block;
+    background: #000;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .youtube-embed {
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  }
+</style>
