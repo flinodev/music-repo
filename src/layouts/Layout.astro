@@ -148,7 +148,8 @@ const showGrain = SITE.backdropEffects.grain;
       )
     }
 
-    <ClientRouter />
+    <!-- ClientRouter disabled temporarily to test FOUC issue -->
+    <!-- <ClientRouter /> -->
 
     <!-- Critical CSS to prevent FOUC during page transitions -->
     <style is:inline>
