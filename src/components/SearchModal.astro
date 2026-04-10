@@ -233,13 +233,14 @@ import "@pagefind/default-ui/css/ui.css";
             <p class="text-sm"><strong>⚠ DEV mode</strong> — Build the project first to enable search.</p>
             <code class="block bg-black text-white text-xs px-3 py-2 rounded-lg font-mono">pnpm run build</code>
           </div>`;
+        return; // Don't try to load Pagefind in dev mode
       }
 
       const onIdle =
         window.requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1));
       onIdle(async () => {
         if (signal.aborted) return;
-        
+
         // Ensure Pagefind UI does not re-initialize on the same element
         if (container.querySelector(".pagefind-ui")) return;
 
@@ -336,6 +337,13 @@ import "@pagefind/default-ui/css/ui.css";
 
   // Initialize on load and on view transitions navigation
   document.addEventListener("astro:page-load", initSearchModal);
+
+  // Also initialize on DOMContentLoaded as fallback
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearchModal);
+  } else {
+    initSearchModal();
+  }
 </script>
 
 <style>
