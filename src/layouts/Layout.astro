@@ -150,6 +150,39 @@ const showGrain = SITE.backdropEffects.grain;
 
     <ClientRouter />
 
+    <!-- Critical CSS to prevent FOUC during page transitions -->
+    <style is:inline>
+      :root,
+      html[data-theme="light"] {
+        --background: #f2f5ec;
+        --foreground: #353538;
+        --accent: #1158d1;
+        --muted: #bbc789;
+        --border: #7cadff;
+      }
+
+      html[data-theme="dark"] {
+        --background: #10131a;
+        --foreground: #f6f7f8;
+        --accent: #008fec;
+        --muted: #212f3f;
+        --border: #2264e3;
+      }
+
+      html {
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100svh;
+        background-color: var(--background);
+        color: var(--foreground);
+        font-family: var(--font-wotfard, system-ui, -apple-system, sans-serif);
+        transition: none;
+      }
+    </style>
+
     <!-- Minimal inline script to prevent FOUC - sets theme immediately -->
     <script is:inline>
       (function () {
