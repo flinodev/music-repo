@@ -15,6 +15,7 @@ const params = new URLSearchParams({
   playsinline: '1',       // Reproduce inline en iOS
   controls: '1',          // Asegura controles visibles
   enablejsapi: '1',       // Habilita JavaScript API
+  mute: '0',              // Asegura que el video NO esté silenciado
 });
 
 const embedUrl = `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
