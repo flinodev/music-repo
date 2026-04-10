@@ -178,8 +178,28 @@ const showGrain = SITE.backdropEffects.grain;
         min-height: 100svh;
         background-color: var(--background);
         color: var(--foreground);
-        font-family: var(--font-wotfard, system-ui, -apple-system, sans-serif);
+        font-family: var(--font-wotfard), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         transition: none;
+      }
+
+      /* Critical header styles */
+      #main-header {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        width: 100%;
+        background: transparent;
+      }
+
+      /* Logo and nav text - use system fonts as fallback */
+      a, nav, button {
+        color: var(--foreground);
+        font-family: var(--font-wotfard), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      /* Dark mode invert for logo */
+      html[data-theme="dark"] svg.dark\:invert {
+        filter: invert(1);
       }
     </style>
 
