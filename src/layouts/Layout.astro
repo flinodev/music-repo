@@ -281,9 +281,19 @@ const showGrain = SITE.backdropEffects.grain;
         cursor: pointer;
       }
 
-      /* Mobile menu - hide by default */
-      #mobile-menu {
-        display: none;
+      /* Hamburger button - show only on mobile */
+      .hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      @media (min-width: 640px) {
+        .hamburger-btn {
+          display: none !important;
+        }
       }
 
       /* Logo and nav text - use system fonts as fallback */
@@ -308,6 +318,15 @@ const showGrain = SITE.backdropEffects.grain;
         padding: 0.5rem 1rem;
         font-weight: 500;
         color: var(--background);
+      }
+
+      /* Preserve Tailwind utility classes */
+      .mt-6 {
+        margin-top: 1.5rem;
+      }
+
+      .mb-2 {
+        margin-bottom: 0.5rem;
       }
     </style>
 
