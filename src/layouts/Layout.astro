@@ -413,10 +413,10 @@ const showGrain = SITE.backdropEffects.grain;
         text-align: center;
       }
 
-      /* Faster view transitions to minimize FOUC visibility */
+      /* Instant transitions to eliminate FOUC - no animation delay */
       ::view-transition-old(root),
       ::view-transition-new(root) {
-        animation-duration: 0.15s;
+        animation-duration: 0s;
       }
     </style>
 
