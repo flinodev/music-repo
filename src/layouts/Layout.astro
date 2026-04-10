@@ -1,6 +1,6 @@
 ---
 import { Font } from "astro:assets";
-import { ClientRouter } from "astro:transitions";
+// import { ClientRouter } from "astro:transitions"; // Disabled - causing FOUC
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
 import { SITE } from "@/config";
 import SearchModal from "@/components/SearchModal.astro";
@@ -148,7 +148,8 @@ const showGrain = SITE.backdropEffects.grain;
       )
     }
 
-    <ClientRouter fallback="none" />
+    <!-- View Transitions disabled - causing FOUC issues in production -->
+    <!-- <ClientRouter fallback="none" /> -->
 
     <!-- Critical CSS to prevent FOUC during page transitions -->
     <style is:inline>
@@ -411,18 +412,6 @@ const showGrain = SITE.backdropEffects.grain;
         position: relative;
         margin-bottom: 2.5rem;
         text-align: center;
-      }
-
-      /* Minimal transitions - instant body swap, but named elements can animate */
-      ::view-transition-old(root),
-      ::view-transition-new(root) {
-        animation: none;
-      }
-
-      /* Smooth fade only for named elements like post titles */
-      ::view-transition-old(*),
-      ::view-transition-new(*) {
-        animation-duration: 0.2s;
       }
     </style>
 
