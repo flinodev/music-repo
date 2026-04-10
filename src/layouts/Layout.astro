@@ -148,8 +148,7 @@ const showGrain = SITE.backdropEffects.grain;
       )
     }
 
-    <!-- ClientRouter disabled temporarily to test FOUC issue -->
-    <!-- <ClientRouter /> -->
+    <ClientRouter fallback="none" />
 
     <!-- Critical CSS to prevent FOUC during page transitions -->
     <style is:inline>
@@ -414,10 +413,16 @@ const showGrain = SITE.backdropEffects.grain;
         text-align: center;
       }
 
-      /* Instant transitions to eliminate FOUC - no animation delay */
+      /* Minimal transitions - instant body swap, but named elements can animate */
       ::view-transition-old(root),
       ::view-transition-new(root) {
-        animation-duration: 0s;
+        animation: none;
+      }
+
+      /* Smooth fade only for named elements like post titles */
+      ::view-transition-old(*),
+      ::view-transition-new(*) {
+        animation-duration: 0.2s;
       }
     </style>
 
