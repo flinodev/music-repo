@@ -77,6 +77,18 @@ i {
   @apply text-accent;
 }
 
+/* ===== Modo proyección (teléfono en horizontal) =====
+   Pareja de la regla de `.app-prose .text-center` en typography.css: en una
+   pantalla ancha y baja el header fijo tapa varias líneas de la letra, así que
+   deja de ser sticky y se va con el scroll. `relative` (no `static`) para que
+   el menú móvil, que es `absolute; top: 100%`, siga anclado al header.
+   Fuera de `@layer` a propósito: tiene que ganarle a la utilidad `sticky`. */
+@media (orientation: landscape) and (max-height: 540px) {
+  #main-header {
+    position: relative;
+  }
+}
+
 /* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
 /* Anything that has been anchored to should have extra scroll margin */
 :target {

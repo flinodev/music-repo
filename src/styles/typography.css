@@ -226,6 +226,26 @@
     }
   }
 
+  /* ===== "Letra" en modo proyección =====
+     El bloque de la letra (`<div class="text-center">` dentro del post) rompe
+     el ancho máximo del artículo y escala su tipografía con el viewport cuando
+     el teléfono se rota a horizontal (pantalla ancha y baja). Así se proyecta
+     ocupando casi todo el ancho, sin necesidad de hacer zoom. */
+  @media (orientation: landscape) and (max-height: 540px) {
+    .app-prose .text-center {
+      width: 100vw;
+      max-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+      padding-inline: 1.25rem;
+      font-size: clamp(1.25rem, 4.4vw, 2.5rem);
+      line-height: 1.4;
+    }
+
+    .app-prose .text-center p {
+      margin-block: 0.8em;
+    }
+  }
+
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code,
   code {
