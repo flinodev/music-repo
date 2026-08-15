@@ -44,14 +44,18 @@ const isActive = (path: string) => {
             <span class="mobile-nav-indicator"></span>
             <span>Tags</span>
           </a>
-          <a
-            href="/about"
-            class:list={["mobile-nav-link", { active: isActive("/about") }]}
-            style="--i:2"
-          >
-            <span class="mobile-nav-indicator"></span>
-            <span>About</span>
-          </a>
+          {
+            SITE.showAbout && (
+              <a
+                href="/about"
+                class:list={["mobile-nav-link", { active: isActive("/about") }]}
+                style="--i:2"
+              >
+                <span class="mobile-nav-indicator" />
+                <span>About</span>
+              </a>
+            )
+          }
           {
             SITE.showArchives && (
               <a

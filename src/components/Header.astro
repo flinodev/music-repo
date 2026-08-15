@@ -102,13 +102,21 @@ const isActive = (path: string) => {
                 >Tags</a
               >
             </li>
-            <li>
-              <a
-                href="/about"
-                class:list={["nav-link", { "nav-active": isActive("/about") }]}
-                >About</a
-              >
-            </li>
+            {
+              SITE.showAbout && (
+                <li>
+                  <a
+                    href="/about"
+                    class:list={[
+                      "nav-link",
+                      { "nav-active": isActive("/about") },
+                    ]}
+                  >
+                    About
+                  </a>
+                </li>
+              )
+            }
             <li class="flex items-center">
               <a
                 href="/search"
