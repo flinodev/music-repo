@@ -45,7 +45,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 <script>
   let searchCleanup: AbortController | null = null;
 
-  document.addEventListener("astro:page-load", () => {
+  function initSearchEffects() {
     // Cleanup previous listeners
     if (searchCleanup) searchCleanup.abort();
     searchCleanup = new AbortController();
@@ -111,7 +111,17 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
         { signal }
       );
     }
-  });
+  }
+
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+  document.addEventListener("astro:page-load", initSearchEffects);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSearchEffects);
+  } else {
+    initSearchEffects();
+  }
 </script>
 
 <script>
@@ -176,7 +186,16 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
     });
   }
 
+  // Igual que arriba (y que SearchModal.astro): sin <ClientRouter> el evento
+  // `astro:page-load` nunca llega, así que sin este fallback el contenedor
+  // #pagefind-search se queda vacío y la página de búsqueda no hace nada.
   document.addEventListener("astro:page-load", initSearch);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSearch);
+  } else {
+    initSearch();
+  }
 </script>
 
 <style>
