@@ -62,7 +62,7 @@ const maxCount = Math.max(...tagsWithCount.map(t => t.count));
           const intensity = count / maxCount;
           return (
             <a
-              href={`/tags/${tag}/`}
+              href={`/tags/${tag}`}
               transition:name={tag}
               class="tag-card group"
               data-tag-card

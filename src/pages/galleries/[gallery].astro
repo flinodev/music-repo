@@ -107,7 +107,7 @@ const hasCoverInFolder = coverImage
             <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm md:justify-end mt-2 md:mt-0">
               {tags.map(tag => (
                 <a
-                  href={`/tags/${slugifyStr(tag)}/`}
+                  href={`/tags/${slugifyStr(tag)}`}
                   class="group relative inline-flex items-center text-foreground/50 transition-colors duration-300 hover:text-accent font-cartograph"
                 >
                   <span class="mr-1 text-accent/40 transition-colors duration-300 group-hover:text-accent">#</span>

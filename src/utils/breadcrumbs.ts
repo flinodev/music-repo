@@ -45,7 +45,7 @@ const buildDefaultBreadcrumbItems = (
     href:
       index === segments.length - 1
         ? null
-        : `/${segments.slice(0, index + 1).join("/")}/`,
+        : `/${segments.slice(0, index + 1).join("/")}`,
   }));
 
 const compactPagination = (
