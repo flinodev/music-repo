@@ -1,6 +1,18 @@
 ---
 title: "template"
-description: description
+# Sobreescribe el <title>. Si se omite queda "<title> — Letra | Music~Repo".
+# Ideal: incluir "Letra" + el grupo/congregación. Máx. ~60 caracteres visibles.
+seoTitle: "Template — Letra completa | IECE Grupo Abdiel"
+# Es el snippet de Google: mete "letra", el grupo y el tema. ~150-160 caracteres.
+description: "Letra completa de \"Template\", himno de TEMA del GRUPO (IECE). Incluye coro, estrofas, tono, compás y video."
+# Términos de búsqueda reales, tal como los teclea la gente. Van a <meta keywords>
+# y al JSON-LD. Opcional: si se omite, se usan solo los tags.
+keywords:
+  - template letra
+  - template iece
+  - letra template grupo abdiel
+# Grupo o autor. Se publica como MusicComposition.composer en el JSON-LD.
+composer: "Grupo Abdiel"
 pubDatetime: 2026-08-15T14:36:00Z
 tags:
   - tag
@@ -11,6 +23,13 @@ draft: true
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro'; 
 import IntroAudio from "@/components/IntroAudio.astro";
 import ChordLine from '../../components/ChordLine.astro';
+
+{/* OJO: remark-toc reemplaza TODO lo que va entre "## Tabla de contenidos" y el
+     siguiente encabezado. Cualquier párrafo de intro va aquí arriba, no abajo. */}
+
+Letra completa del himno **"Template"**, interpretado por el **GRUPO** de la
+**IECE** (Iglesia Evangélica Cristiana Espiritual). UNA O DOS FRASES sobre el
+tema del himno y el pasaje bíblico en que se basa.
 
 ## Tabla de contenidos
 
