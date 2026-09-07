@@ -13,11 +13,13 @@ import {
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
 import { getThinComposerPaths } from "./src/utils/thinComposerPaths";
+import { getPostLastmod } from "./src/utils/sitemapLastmod";
 import vercel from '@astrojs/vercel';
 import pagefind from 'astro-pagefind';
 
 // Rutas de interprete con pocos himnos: van noindex, asi que tampoco al sitemap.
 const thinComposerPaths = getThinComposerPaths();
+const postLastmod = getPostLastmod();
 
 // https://astro.build/config
 export default defineConfig({
@@ -49,7 +51,12 @@ export default defineConfig({
         url.host = new URL(SITE.website).host;
         // Quita el slash final salvo en la raíz.
         url.pathname = url.pathname.replace(/(.+)\/$/, "$1");
-        return { ...item, url: url.href };
+        const lastmod = postLastmod.get(url.pathname);
+        return {
+          ...item,
+          url: url.href,
+          ...(lastmod && { lastmod: lastmod.toISOString() }),
+        };
       },
     }),
     pagefind(),
