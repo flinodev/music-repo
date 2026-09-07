@@ -16,6 +16,9 @@ export async function GET() {
     title: SITE.title,
     description: SITE.desc,
     site: SITE.website,
+    // Sin slash final, igual que el canonical y el sitemap (@astrojs/rss lo
+    // añade por defecto).
+    trailingSlash: false,
     items: sortedPosts.map(entry => ({
       link: getEntryPath(entry),
       title: entry.data.title,
