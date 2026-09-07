@@ -33,6 +33,7 @@ const {
   tags,
   hideEditPost,
   seoTitle,
+  seoDescription,
   keywords,
   composer,
 } = post.data;
@@ -65,7 +66,9 @@ const pageTitle = seoTitle ?? `${title} — Letra | ${SITE.title}`;
 const layoutProps = {
   title: pageTitle,
   author,
-  description,
+  // `description` es el preview de la tarjeta; para la meta se puede usar un
+  // texto distinto, más orientado al snippet de Google.
+  description: seoDescription ?? description,
   pubDatetime,
   modDatetime,
   canonicalURL,

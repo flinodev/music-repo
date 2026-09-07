@@ -21,6 +21,9 @@ const blog = defineCollection({
       description: z.string(),
       // SEO opcional por post
       seoTitle: z.string().optional(), // sobreescribe el <title>; si no, "<title> — Letra | Music~Repo"
+      // Sobreescribe SOLO <meta name="description">. `description` se queda
+      // como preview de la tarjeta del listado y del RSS.
+      seoDescription: z.string().optional(),
       keywords: z.array(z.string()).default([]), // términos de búsqueda (ej. "IECE", "Grupo Abdiel")
       composer: z.string().optional(), // grupo/autor, va al schema MusicComposition
       canonicalURL: z.string().optional(),
