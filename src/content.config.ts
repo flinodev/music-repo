@@ -19,6 +19,10 @@ const blog = defineCollection({
       tags: z.array(z.string()).default(["others"]),
       ogImage: image().or(z.string()).optional(),
       description: z.string(),
+      // SEO opcional por post
+      seoTitle: z.string().optional(), // sobreescribe el <title>; si no, "<title> — Letra | Music~Repo"
+      keywords: z.array(z.string()).default([]), // términos de búsqueda (ej. "IECE", "Grupo Abdiel")
+      composer: z.string().optional(), // grupo/autor, va al schema MusicComposition
       canonicalURL: z.string().optional(),
       hideEditPost: z.boolean().optional(),
       timezone: z.string().optional(),

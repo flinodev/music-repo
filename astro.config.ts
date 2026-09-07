@@ -18,6 +18,10 @@ import pagefind from 'astro-pagefind';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  // Los enlaces internos (getPath) no llevan slash final y Google ya indexó
+  // las URLs sin slash: se fija "never" para que canonical, sitemap y Vercel
+  // apunten todos a la misma variante.
+  trailingSlash: "never",
   adapter: vercel({
     webAnalytics: {
       enabled: true, // set to false when using @vercel/analytics@1.4.0
@@ -29,6 +33,15 @@ export default defineConfig({
     }),
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      // El sitemap debe declarar exactamente la misma URL que el canonical:
+      // host con www y sin slash final.
+      serialize: item => {
+        const url = new URL(item.url);
+        url.host = new URL(SITE.website).host;
+        // Quita el slash final salvo en la raíz.
+        url.pathname = url.pathname.replace(/(.+)\/$/, "$1");
+        return { ...item, url: url.href };
+      },
     }),
     pagefind(),
   ],

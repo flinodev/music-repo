@@ -11,6 +11,7 @@ import BackToTopButton from "@/components/BackToTopButton.astro";
 import GalleryEmbed from "@/components/GalleryEmbed.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
+import { extractLyrics } from "@/utils/extractLyrics";
 import { SITE } from "@/config";
 
 type Props = {
@@ -31,6 +32,9 @@ const {
   timezone,
   tags,
   hideEditPost,
+  seoTitle,
+  keywords,
+  composer,
 } = post.data;
 
 const { Content } = await render(post);
@@ -54,8 +58,12 @@ const ogImage = ogImageUrl
   ? new URL(ogImageUrl, Astro.url.origin).href
   : undefined;
 
+// La intención de búsqueda de estas páginas es siempre "<canción> letra",
+// así que el <title> lleva "Letra" salvo que el post defina uno propio.
+const pageTitle = seoTitle ?? `${title} — Letra | ${SITE.title}`;
+
 const layoutProps = {
-  title: `${title} | ${SITE.title}`,
+  title: pageTitle,
   author,
   description,
   pubDatetime,
@@ -63,6 +71,12 @@ const layoutProps = {
   canonicalURL,
   ogImage,
   scrollSmooth: true,
+  keywords: [...keywords, ...tags],
+  musicComposition: {
+    name: title,
+    ...(composer && { composer }),
+    lyrics: extractLyrics(post.body),
+  },
 };
 
 /* ========== Prev/Next Posts ========== */

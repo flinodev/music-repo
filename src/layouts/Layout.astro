@@ -17,6 +17,12 @@ type Props = {
   pubDatetime?: Date;
   modDatetime?: Date | null;
   scrollSmooth?: boolean;
+  keywords?: string[];
+  musicComposition?: {
+    name: string;
+    composer?: string;
+    lyrics?: string;
+  } | null;
 };
 
 const {
@@ -29,18 +35,37 @@ const {
   pubDatetime,
   modDatetime,
   scrollSmooth = false,
+  keywords = [],
+  musicComposition = null,
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
+
+// Normaliza la URL canónica: siempre https://www.music-repo.com/... sin slash
+// final, para que coincida con los enlaces internos y con el sitemap.
+const canonicalHref = (() => {
+  const url = new URL(canonicalURL, SITE.website);
+  const site = new URL(SITE.website);
+  url.protocol = site.protocol;
+  url.host = site.host;
+  url.pathname = url.pathname.replace(/(.+)\/$/, "$1");
+  return url.href;
+})();
 
 const structuredData = pubDatetime
   ? {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       headline: `${title}`,
+      name: `${title}`,
+      description: `${description}`,
       image: `${socialImageURL}`,
+      inLanguage: SITE.lang || "es",
+      url: canonicalHref,
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonicalHref },
       datePublished: pubDatetime.toISOString(),
       ...(modDatetime && { dateModified: modDatetime.toISOString() }),
+      ...(keywords.length && { keywords: keywords.join(", ") }),
       author: [
         {
           "@type": "Person",
@@ -48,6 +73,24 @@ const structuredData = pubDatetime
           ...(profile && { url: profile }),
         },
       ],
+      publisher: {
+        "@type": "Organization",
+        name: SITE.title,
+        url: SITE.website,
+      },
+      ...(musicComposition && {
+        about: {
+          "@type": "MusicComposition",
+          name: musicComposition.name,
+          inLanguage: SITE.lang || "es",
+          ...(musicComposition.composer && {
+            composer: { "@type": "MusicGroup", name: musicComposition.composer },
+          }),
+          ...(musicComposition.lyrics && {
+            lyrics: { "@type": "CreativeWork", text: musicComposition.lyrics },
+          }),
+        },
+      }),
     }
   : null;
 
@@ -65,7 +108,7 @@ const showGrain = SITE.backdropEffects.grain;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalURL} />
+    <link rel="canonical" href={canonicalHref} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Load Fonts -->
@@ -82,12 +125,14 @@ const showGrain = SITE.backdropEffects.grain;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={author} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={canonicalHref} />
     <meta property="og:image" content={socialImageURL} />
 
     <!-- Article Published/Modified time -->
@@ -110,7 +155,7 @@ const showGrain = SITE.backdropEffects.grain;
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:url" content={canonicalHref} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
