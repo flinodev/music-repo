@@ -1,6 +1,12 @@
 ---
 title: "Cristo vive y reina"
+seoTitle: 'Cristo vive y reina — Letra | Grupo Elim'
 description: Mujeres, ¿porqué buscáis a vuestro Maestro entre los muertos?... ¡Cristo vive y reina!
+seoDescription: 'Letra completa de "Cristo vive y reina" (Grupo Elim): «Mujeres, ¿porqué buscáis a vuestro Maestro entre los muertos?... ¡Cristo vive y reina!…»'
+keywords:
+  - 'cristo vive y reina letra'
+  - 'letra cristo vive y reina grupo elim'
+composer: "Grupo Elim"
 pubDatetime: 2026-03-31T10:00:00Z
 tags:
   - Resurrección
@@ -13,6 +19,7 @@ draft: false
 ## Detalles
 - Tono: Si<sub>b</sub> M
 - Compás: 4/4
+- Grupo: Grupo Elim
 
 ## Letra
 

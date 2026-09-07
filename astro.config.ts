@@ -12,8 +12,12 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
+import { getThinComposerPaths } from "./src/utils/thinComposerPaths";
 import vercel from '@astrojs/vercel';
 import pagefind from 'astro-pagefind';
+
+// Rutas de interprete con pocos himnos: van noindex, asi que tampoco al sitemap.
+const thinComposerPaths = getThinComposerPaths();
 
 // https://astro.build/config
 export default defineConfig({
@@ -32,7 +36,12 @@ export default defineConfig({
       extendMarkdownConfig: true,
     }),
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      filter: page => {
+        if (!SITE.showArchives && page.endsWith("/archives")) return false;
+        // Fuera las paginas de interprete que van con noindex.
+        const path = new URL(page).pathname.replace(/\/$/, "");
+        return !thinComposerPaths.has(path);
+      },
       // El sitemap debe declarar exactamente la misma URL que el canonical:
       // host con www y sin slash final.
       serialize: item => {

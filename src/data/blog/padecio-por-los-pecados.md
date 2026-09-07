@@ -1,6 +1,12 @@
 ---
 title: "Padeció por los pecados"
+seoTitle: 'Padeció por los pecados — Letra | Hermanos Hernández Martínez'
 description: Crucificaron al Salvador le dieron muerte sin compasión... Siendo el Rey, Rey de los reyes no le importó dejar su trono.
+seoDescription: 'Letra completa de "Padeció por los pecados" (Hermanos Hernández Martínez): «Crucificaron al Salvador le dieron muerte sin compasión... Siendo el Rey, Rey…»'
+keywords:
+  - 'padeció por los pecados letra'
+  - 'letra padeció por los pecados hermanos hernández martínez'
+composer: "Hermanos Hernández Martínez"
 pubDatetime: 2026-04-03T14:50:00Z
 tags:
   - Evangelismo
@@ -15,6 +21,7 @@ draft: false
 ## Detalles
 - Tono: Mi m
 - Compás: 4/4
+- Grupo Hermanos Hernández Martínez
 
 ## Letra
 

@@ -10,6 +10,10 @@ export const SITE = {
   postPerPage: 12,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
   showArchives: true,
+  showInterpretes: true, // show/hide the Interpretes link in the nav
+  // Una pagina de interprete con muy pocos himnos es thin content: por debajo
+  // de este umbral se genera igual (para navegar) pero se marca noindex.
+  minPostsToIndexInterprete: 3,
   showAbout: false, // show/hide the About link in the nav (the /about page keeps existing)
   showGalleries: false,
   showGalleriesInIndex: false, // Show galleries in the general paginated list (only if showGalleries is true)

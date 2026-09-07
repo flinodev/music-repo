@@ -103,6 +103,21 @@ const isActive = (path: string) => {
               >
             </li>
             {
+              SITE.showInterpretes && (
+                <li>
+                  <a
+                    href="/interpretes"
+                    class:list={[
+                      "nav-link",
+                      { "nav-active": isActive("/interpretes") },
+                    ]}
+                  >
+                    Interpretes
+                  </a>
+                </li>
+              )
+            }
+            {
               SITE.showAbout && (
                 <li>
                   <a

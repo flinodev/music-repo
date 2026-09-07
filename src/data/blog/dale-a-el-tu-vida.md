@@ -1,6 +1,12 @@
 ---
 title: "Dale a Él tu vida"
+seoTitle: 'Dale a Él tu vida — Letra | Grupo Romanti-Ezer'
 description: ¿Acaso te sientes triste? ¿O acaso estás afligido? ... Cristo es la respuesta, la solución, tu salida.
+seoDescription: 'Letra completa de "Dale a Él tu vida" (Grupo Romanti-Ezer): «¿Acaso te sientes triste? ¿O acaso estás afligido? ... Cristo es la respuesta, la solución, tu…»'
+keywords:
+  - 'dale a él tu vida letra'
+  - 'letra dale a él tu vida grupo romanti-ezer'
+composer: "Grupo Romanti-Ezer"
 pubDatetime: 2026-04-01T20:50:00Z
 tags:
   - Evangelismo
@@ -14,6 +20,7 @@ draft: false
 ## Detalles
 - Tono: Re M
 - Compás: 4/4
+- Grupo: Grupo Romanti-Ezer
 
 ## Notas musicales
 

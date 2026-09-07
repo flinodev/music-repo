@@ -1,9 +1,17 @@
 ---
 title: "¿A dónde tu iras?"
+seoTitle: '¿A dónde tu iras? — Letra | Grupo Hadoram'
 description: ¿Has pensado en qué será de tu vida? ¿A donde tú iras después de muerto? ... Reflexiona amigo mío aún es tiempo.
 pubDatetime: 2026-04-01T20:50:00Z
+seoDescription: 'Letra completa de "¿A dónde tu iras?" (Grupo Hadoram): «¿Has pensado en qué será de tu vida? ¿A donde tú iras después de muerto? ... Reflexiona amigo mío…»'
+keywords:
+  - 'a dónde tu iras letra'
+  - 'letra a dónde tu iras grupo hadoram'
+  - 'a dónde tu iras iece'
+composer: "Grupo Hadoram"
 tags:
   - Evangelismo
+  - IECE
 featured: false
 draft: false
 ---
@@ -14,6 +22,7 @@ draft: false
 ## Detalles
 - Tono: Re M
 - Compás: 4/4
+- Grupo: Grupo Hadoram (IECE)
 
 ## Notas musicales
 

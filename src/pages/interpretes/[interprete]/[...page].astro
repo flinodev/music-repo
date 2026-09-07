@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import type { GetStaticPathsOptions } from "astro";
+import Main from "@/layouts/Main.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import Pagination from "@/components/Pagination.astro";
+import getUniqueComposers from "@/utils/getUniqueComposers";
+import getPostsByComposer from "@/utils/getPostsByComposer";
+import { SITE } from "@/config";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const [blogPosts, galleryPosts] = await Promise.all([
+    getCollection("blog"),
+    SITE.showGalleries && SITE.showGalleriesInIndex
+      ? getCollection("galleries")
+      : Promise.resolve([]),
+  ]);
+  const posts = [...blogPosts, ...galleryPosts];
+  const composers = getUniqueComposers(posts);
+
+  return composers.flatMap(({ composer, composerName }) => {
+    const composerPosts = getPostsByComposer(posts, composer);
+
+    return paginate(composerPosts, {
+      params: { interprete: composer },
+      props: { composerName, total: composerPosts.length },
+      pageSize: SITE.postPerPage,
+    });
+  });
+}
+
+const { interprete } = Astro.params;
+const { page, composerName, total } = Astro.props;
+
+// Con uno o dos himnos la pagina aporta poco a un buscador: se genera para
+// navegar, pero se marca noindex hasta que tenga volumen suficiente.
+const noindex = total < SITE.minPostsToIndexInterprete;
+---
+
+<Layout
+  title={`${composerName} — Himnos y letras | ${SITE.title}`}
+  description={`Todos los himnos interpretados por ${composerName}: letras completas, tono y compás.`}
+  noindex={noindex}
+>
+  <Header />
+  <Main
+    pageTitle={[`Interprete:`, `${composerName}`]}
+    titleTransition={interprete}
+    pageDesc={`${total} ${total === 1 ? "himno" : "himnos"} de ${composerName}.`}
+  >
+    <h1 slot="title" transition:name={interprete}>{composerName}</h1>
+    <ul>
+      {page.data.map(data => <Card {...data} />)}
+    </ul>
+  </Main>
+
+  <Pagination {page} />
+
+  <Footer noMarginTop={page.lastPage > 1} />
+</Layout>

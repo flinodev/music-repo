@@ -1,6 +1,12 @@
 ---
 title: "Por ti murió Jesús"
+seoTitle: 'Por ti murió Jesús — Letra completa'
 description: Cristo, por mi fuiste clavado allá en la cruz... Por mi te diste tú para librarme del pecado y del error.
+seoDescription: 'Letra completa de "Por ti murió Jesús" (Coro Juvenil "Los tres jóvenes hebreos"): «Cristo, por mi fuiste clavado allá en la cruz... Por mi te diste tú para…»'
+keywords:
+  - 'por ti murió jesús letra'
+  - 'letra por ti murió jesús coro juvenil los tres jóvenes hebreos'
+composer: 'Coro Juvenil "Los tres jóvenes hebreos"'
 pubDatetime: 2026-03-31T10:00:00Z
 tags:
   - Evangelismo
@@ -14,6 +20,7 @@ draft: false
 ## Detalles
 - Tono: La m
 - Compás: 4/4
+- Grupo: Coro Juvenil "Los tres jóvenes hebreos"
 
 ## Notas musicales
 

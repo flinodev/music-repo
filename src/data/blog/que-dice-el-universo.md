@@ -1,6 +1,12 @@
 ---
 title: "¿Qué dice el universo?"
+seoTitle: '¿Qué dice el universo? — Letra completa'
 description: ¿Las estrellas que te han dicho? ¿Qué te ha dicho el Sol? ... ¿Acaso tú, su voz no escuchas? ¿No entiendes lo que el universo dice?
+seoDescription: 'Letra completa de "¿Qué dice el universo?" (Conjunto Instrumental Nueva Jerusalem): «¿Las estrellas que te han dicho? ¿Qué te ha dicho el Sol? ... ¿Acaso…»'
+keywords:
+  - 'qué dice el universo letra'
+  - 'letra qué dice el universo conjunto instrumental nueva jerusalem'
+composer: "Conjunto Instrumental Nueva Jerusalem"
 pubDatetime: 2026-03-31T03:40:00Z
 tags:
   - Evangelismo
@@ -13,6 +19,7 @@ draft: false
 ## Detalles
 - Tono: Do M
 - Compás: 4/4
+- Grupo: Conjunto Instrumental Nueva Jerusalem
 
 ## Notas musicales
 

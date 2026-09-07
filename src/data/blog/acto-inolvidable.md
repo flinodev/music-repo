@@ -1,9 +1,17 @@
 ---
 title: "Acto inolvidable"
+seoTitle: 'Acto inolvidable — Letra | Grupo Legislador Moisés'
 description: Estando por llegarse el día de ser entregado... Y partió el pan y les dice esto comed.
 pubDatetime: 2026-03-31T10:00:00Z
+seoDescription: 'Letra completa de "Acto inolvidable" (Grupo Legislador Moisés): «Estando por llegarse el día de ser entregado... Y partió el pan y les dice esto comed…»'
+keywords:
+  - 'acto inolvidable letra'
+  - 'letra acto inolvidable grupo legislador moisés'
+  - 'acto inolvidable iece'
+composer: "Grupo Legislador Moisés"
 tags:
   - Santa Cena
+  - IECE
 featured: false
 draft: false
 ---
@@ -14,6 +22,7 @@ draft: false
 ## Detalles
 - Tono: Do M
 - Compás: 4/4
+- Grupo: Grupo Legislador Moisés (IECE)
 
 ## Notas musicales
 
