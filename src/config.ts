@@ -4,7 +4,9 @@ export const SITE = {
   profile: "https://flino.dev",
   desc: "Un espacio dedicado a la recopilación de notas musicales.",
   title: "Music~Repo",
-  ogImage: "devosfera-og.webp", // located in the public folder
+  // Vacio a proposito: sin archivo fijo, Layout.astro cae a `/og.png`, que
+  // Satori genera con el titulo y la descripcion reales del sitio.
+  ogImage: "",
   lightAndDarkMode: true,
   postPerIndex: 6,
   postPerPage: 12,
