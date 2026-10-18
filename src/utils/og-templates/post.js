@@ -3,6 +3,12 @@ import { SITE } from "@/config";
 import loadGoogleFonts from "../loadGoogleFont";
 
 export default async post => {
+  // El pie atribuye el himno a quien lo interpreta; "Escrito por <autor>"
+  // hacía parecer que el autor del sitio había escrito la letra.
+  const { composer, author } = post.data;
+  const footerLabel = composer ? "Interpretado por " : "Transcrito por ";
+  const footerName = composer ?? author;
+
   return satori(
     {
       type: "div",
@@ -128,7 +134,7 @@ export default async post => {
                       color: "#cbd5e1",
                     },
                     children: [
-                      "Escrito por ",
+                      footerLabel,
                       {
                         type: "span",
                         props: {
@@ -137,7 +143,7 @@ export default async post => {
                             color: "white",
                             marginLeft: "8px",
                           },
-                          children: post.data.author,
+                          children: footerName,
                         },
                       },
                     ],
@@ -154,7 +160,7 @@ export default async post => {
       height: 630,
       embedFont: true,
       fonts: await loadGoogleFonts(
-        post.data.title + post.data.author + SITE.title + "Escritopor" + ".com"
+        post.data.title + footerLabel + footerName + SITE.title + ".com"
       ),
     }
   );
