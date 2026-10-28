@@ -59,7 +59,7 @@ Primera parte
 20 - 22 - 23 - 23 - 22 - 20 - 22<sup>T</sup>  
 20 - 35 - 33 - 20 - 35 - 33 - 35<sup>T</sup>  
 
-Segunda parte 
+Segunda parte    
 23 - 25 - 10 - 10 - 20 - 35 - 20<sup>T</sup>  
 23 - 25 - 10 - 10 - 25 - 23 - 25<sup>T</sup>  
 22 - 23 - 25 - 25 - 35 - 33 - 35<sup>T</sup>  
