@@ -223,6 +223,9 @@ const nextPost =
 
     <article
       id="article"
+      data-pdf-title={composer ? `${title} — ${composer}` : title}
+      data-pdf-tags={JSON.stringify(tags)}
+      data-pdf-site-url={SITE.website}
       class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
     >
       <Content components={{ GalleryEmbed }} />
@@ -474,6 +477,40 @@ const nextPost =
     }
   }
 
+  /**
+   * En la página el coro se repite después de cada estrofa para solo hacer
+   * scroll; en el PDF basta con que aparezca una vez. Quita los coros cuya
+   * letra ya salió antes (ignorando mayúsculas, acentos, puntuación y las
+   * marcas de repetición "//"), pero conserva los que son distintos, como un
+   * CORO II o un coro final con versos extra.
+   */
+  function removeRepeatedChoruses(root: Element) {
+    const CHORUS_LABEL = /^[^\p{L}]*(pre-?)?coro\b/iu;
+    const normalize = (text: string) =>
+      text.normalize('NFD').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+    const seen = new Set<string>();
+
+    Array.from(root.querySelectorAll('p')).forEach((p) => {
+      // Ya se quitó como cuerpo de una etiqueta "CORO" suelta
+      if (!root.contains(p)) return;
+
+      const [label, ...lines] = (p.textContent ?? '').trim().split('\n');
+      if (!CHORUS_LABEL.test(label)) return;
+
+      // A veces la etiqueta "CORO" va sola en su párrafo y la letra en el siguiente
+      const body = lines.length ? null : p.nextElementSibling;
+      const lyrics = normalize(body ? (body.textContent ?? '') : lines.join(' '));
+      if (!lyrics) return;
+
+      if (seen.has(lyrics)) {
+        body?.remove();
+        p.remove();
+      } else {
+        seen.add(lyrics);
+      }
+    });
+  }
+
   /** Add PDF export buttons to sections */
   function addPDFExportButtons() {
     const article = document.getElementById('article');
@@ -524,8 +561,14 @@ const nextPost =
 
         let nextElement = heading.nextElementSibling;
         while (nextElement && nextElement.tagName !== 'H2') {
-          if (!nextElement.classList.contains('pdf-export-section')) {
-            sectionContent.push(nextElement.outerHTML);
+          // El `---` que separa la letra de "Referencia" no tiene caso en el PDF
+          if (
+            !nextElement.classList.contains('pdf-export-section') &&
+            nextElement.tagName !== 'HR'
+          ) {
+            const clone = nextElement.cloneNode(true) as Element;
+            removeRepeatedChoruses(clone);
+            sectionContent.push(clone.outerHTML);
           }
           nextElement = nextElement.nextElementSibling;
         }
@@ -534,22 +577,42 @@ const nextPost =
         const printWindow = window.open('', '_blank');
         if (!printWindow) return;
 
-        const postTitle = document.title.split(' | ')[0];
+        // El navegador lo pone arriba de cada hoja y lo sugiere como nombre del archivo
+        const pdfTitle = (article.dataset.pdfTitle ?? document.title.split(' | ')[0])
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+        // Pie de cada hoja: temática del himno (sus tags), sitio y número de
+        // página. Las cajas de margen de @page reemplazan el pie que pone el
+        // navegador, que si no muestra "about:blank" por ser una ventana vacía.
+        const cssString = (text: string) =>
+          '"' + text.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+        const tags: string[] = JSON.parse(article.dataset.pdfTags ?? '[]');
+        const siteUrl = article.dataset.pdfSiteUrl ?? window.location.origin;
+        const siteLabel = siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+        const marginBox = 'font-family: Arial, sans-serif; font-size: 10px; color: #555;';
+        const pageRule = [
+          '@page { margin: 15mm 12mm;',
+          tags.length ? ' @bottom-left { content: ' + cssString('Temática: ' + tags.join(' · ')) + '; ' + marginBox + ' }' : '',
+          ' @bottom-center { content: ' + cssString(siteLabel) + '; ' + marginBox + ' }',
+          ' @bottom-right { content: counter(page) "/" counter(pages); ' + marginBox + ' }',
+          ' }'
+        ].join('');
 
         const htmlParts = [
           '<!DOCTYPE html>',
           '<html><head>',
           '<meta charset="utf-8">',
-          '<title>' + postTitle + ' - ' + headingId + '</title>',
+          '<title>' + pdfTitle + '</title>',
           '<style>',
           'body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.5; color: #000; font-size: 26px; }',
           'p { margin: 15px 0; font-size: 26px; font-family: Arial, sans-serif; line-height: 1.5; }',
           'div { font-size: 26px; font-family: Arial, sans-serif; line-height: 1.5; }',
           '.text-center { text-align: center; }',
           '@media print { body { margin: 0; padding: 20px; font-size: 26px; line-height: 1.5; } p, div { font-size: 26px; line-height: 1.5; } }',
+          pageRule,
           '</style>',
           '</head><body>',
-          sectionContent.join('\\n'),
+          sectionContent.join(''),
           '<' + 'script>window.onload = function() { window.print(); setTimeout(function() { window.close(); }, 100); }<' + '/script>',
           '</body></html>'
         ];
@@ -575,8 +638,16 @@ const nextPost =
     addPDFExportButtons();
   }
 
-  // Run on initial page load
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. Sin el fallback de DOMContentLoaded no aparecen la barra
+  // de progreso, los enlaces de encabezados, los botones de copiar ni el de PDF.
   document.addEventListener("astro:page-load", initPostFeatures);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPostFeatures);
+  } else {
+    initPostFeatures();
+  }
 
   // Scroll to top after page swap
   document.addEventListener("astro:after-swap", () =>

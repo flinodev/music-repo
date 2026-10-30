@@ -205,7 +205,15 @@ const totalPosts = page.total;
     });
   }
 
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
   document.addEventListener("astro:page-load", initPostsPage);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPostsPage);
+  } else {
+    initPostsPage();
+  }
 </script>
 
 <style>

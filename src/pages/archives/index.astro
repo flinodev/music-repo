@@ -158,7 +158,7 @@ const yearGroups = Object.entries(
 <script>
   let archiveCleanup: AbortController | null = null;
 
-  document.addEventListener("astro:page-load", () => {
+  function initArchiveEffects() {
     // Cleanup previous listeners
     if (archiveCleanup) archiveCleanup.abort();
     archiveCleanup = new AbortController();
@@ -226,7 +226,17 @@ const yearGroups = Object.entries(
         { signal }
       );
     });
-  });
+  }
+
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+  document.addEventListener("astro:page-load", initArchiveEffects);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initArchiveEffects);
+  } else {
+    initArchiveEffects();
+  }
 </script>
 
 <style>

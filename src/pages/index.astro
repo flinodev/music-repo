@@ -215,7 +215,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !("featured" in data && dat
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  function initIndexPage() {
     const indexLayout = (document.querySelector("#main-content") as HTMLElement)
       ?.dataset?.layout;
     if (indexLayout) {
@@ -230,5 +230,15 @@ const recentPosts = sortedPosts.filter(({ data }) => !("featured" in data && dat
         card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
       });
     });
-  });
+  }
+
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+  document.addEventListener("astro:page-load", initIndexPage);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initIndexPage);
+  } else {
+    initIndexPage();
+  }
 </script>

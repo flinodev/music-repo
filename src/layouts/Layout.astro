@@ -611,7 +611,7 @@ const showGrain = SITE.backdropEffects.grain;
     <script>
       let cursorCleanup: AbortController | null = null;
 
-      document.addEventListener("astro:page-load", () => {
+      function initCursorGlow() {
         // Cleanup previous listeners
         if (cursorCleanup) cursorCleanup.abort();
         cursorCleanup = new AbortController();
@@ -660,7 +660,17 @@ const showGrain = SITE.backdropEffects.grain;
           },
           { signal }
         );
-      });
+      }
+
+      // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+      // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+      document.addEventListener("astro:page-load", initCursorGlow);
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initCursorGlow);
+      } else {
+        initCursorGlow();
+      }
     </script>
   )
 }

@@ -243,6 +243,13 @@ const dialogId = `chord-dialog-${name}`;
     });
   }
 
-  // Ejecutar en carga inicial y después de cada navegación
-  document.addEventListener('astro:page-load', initChordDialogs);
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+  document.addEventListener("astro:page-load", initChordDialogs);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initChordDialogs);
+  } else {
+    initChordDialogs();
+  }
 </script>

@@ -53,7 +53,7 @@ const { frontmatter } = Astro.props;
 <script>
   let aboutCleanup: AbortController | null = null;
 
-  document.addEventListener("astro:page-load", () => {
+  function initAboutEffects() {
     // Cleanup previous listeners
     if (aboutCleanup) aboutCleanup.abort();
     aboutCleanup = new AbortController();
@@ -106,7 +106,17 @@ const { frontmatter } = Astro.props;
         { signal }
       );
     });
-  });
+  }
+
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+  document.addEventListener("astro:page-load", initAboutEffects);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAboutEffects);
+  } else {
+    initAboutEffects();
+  }
 </script>
 
 <style>

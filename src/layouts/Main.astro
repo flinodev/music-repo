@@ -31,12 +31,22 @@ const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
 </main>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  function saveBackUrl() {
     const mainContent: HTMLElement | null =
       document.querySelector("#main-content");
     const backUrl = mainContent?.dataset?.backurl;
     if (backUrl) {
       sessionStorage.setItem("backUrl", backUrl);
     }
-  });
+  }
+
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+  document.addEventListener("astro:page-load", saveBackUrl);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", saveBackUrl);
+  } else {
+    saveBackUrl();
+  }
 </script>

@@ -103,7 +103,7 @@ const postsConInterprete = tagsWithCount.reduce((n, t) => n + t.count, 0);
 <script>
   let tagsCleanup: AbortController | null = null;
 
-  document.addEventListener("astro:page-load", () => {
+  function initInterpretesEffects() {
     // Cleanup previous listeners
     if (tagsCleanup) tagsCleanup.abort();
     tagsCleanup = new AbortController();
@@ -172,7 +172,17 @@ const postsConInterprete = tagsWithCount.reduce((n, t) => n + t.count, 0);
         { signal }
       );
     });
-  });
+  }
+
+  // `astro:page-load` solo se dispara con <ClientRouter>, que está desactivado
+  // en Layout.astro. El fallback de DOMContentLoaded es el que realmente corre.
+  document.addEventListener("astro:page-load", initInterpretesEffects);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initInterpretesEffects);
+  } else {
+    initInterpretesEffects();
+  }
 </script>
 
 <style>
