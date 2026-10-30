@@ -159,9 +159,10 @@ Solo por ti, _solo por ti_, solo por tí
 - ER 
 - VC
 - MG
+- LC
 
 ### Mandolina - Violin 2da voz
-- LC
+- EA
 - MP
 - EM
 - GG
