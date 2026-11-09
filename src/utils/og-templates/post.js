@@ -8,6 +8,8 @@ export default async post => {
   const { composer, author } = post.data;
   const footerLabel = composer ? "Interpretado por " : "Transcrito por ";
   const footerName = composer ?? author;
+  // El dominio real (music-repo.com, con guion), no SITE.title + ".com"
+  const hostname = new URL(SITE.website).hostname.replace(/^www\./, "");
 
   return satori(
     {
@@ -65,7 +67,7 @@ export default async post => {
                     color: "#e2e8f0",
                     letterSpacing: "2px",
                   },
-                  children: SITE.title + ".com",
+                  children: hostname,
                 },
               },
             },
@@ -160,7 +162,7 @@ export default async post => {
       height: 630,
       embedFont: true,
       fonts: await loadGoogleFonts(
-        post.data.title + footerLabel + footerName + SITE.title + ".com"
+        post.data.title + footerLabel + footerName + hostname
       ),
     }
   );
