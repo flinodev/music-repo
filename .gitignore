@@ -30,3 +30,6 @@ pnpm-debug.log*
 
 public/pagefind
 .vercel
+
+# descripciones de YouTube generadas con `npm run yt:descripciones`
+youtube-descripciones/
