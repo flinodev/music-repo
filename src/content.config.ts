@@ -20,7 +20,7 @@ const blog = defineCollection({
       ogImage: image().or(z.string()).optional(),
       description: z.string(),
       // SEO opcional por post
-      seoTitle: z.string().optional(), // sobreescribe el <title>; si no, "<title> — Letra | Music~Repo"
+      seoTitle: z.string().optional(), // sobreescribe el <title>; si no, "<title> — Letra | music~repo"
       // Sobreescribe SOLO <meta name="description">. `description` se queda
       // como preview de la tarjeta del listado y del RSS.
       seoDescription: z.string().optional(),

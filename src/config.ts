@@ -3,7 +3,7 @@ export const SITE = {
   author: "flinodev",
   profile: "https://flino.dev",
   desc: "Un espacio dedicado a la recopilación de notas musicales.",
-  title: "Music~Repo",
+  title: "music~repo",
   // Vacio a proposito: sin archivo fijo, Layout.astro cae a `/og.png`, que
   // Satori genera con el titulo y la descripcion reales del sitio.
   ogImage: "",

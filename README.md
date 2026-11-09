@@ -1,4 +1,4 @@
-# Music~Repo
+# music~repo
 
 Repositorio de **notas musicales, letras y acordes de himnos espirituales**. Cada entrada reúne la letra completa, el tono y compás, las notas por instrumento (mandolina, violín, trompeta, flauta, saxofón), audios de referencia y los acordes de guitarra alineados sobre la letra.
 
@@ -6,7 +6,7 @@ Construido sobre una versión fuertemente personalizada del tema [AstroPaper](ht
 
 **🌐 Sitio:** [www.music-repo.com](https://www.music-repo.com)
 
-![Portada de Music~Repo: hero con el reproductor de intro y los himnos destacados](public/music-repo-preview.webp)
+![Portada de music~repo: hero con el reproductor de intro y los himnos destacados](public/music-repo-preview.webp)
 
 > **Nota:** este es un proyecto personal. Si alguien quiere reutilizarlo, puede borrar el contenido de `src/data/blog/` y ajustar `src/config.ts` a su gusto.
 
@@ -194,7 +194,7 @@ hideEditPost: false # opcional
 ---
 ```
 
-Si no defines `seoTitle`, el `<title>` se arma como `"<title> — Letra | Music~Repo"`, que es la intención de búsqueda real de estas páginas.
+Si no defines `seoTitle`, el `<title>` se arma como `"<title> — Letra | music~repo"`, que es la intención de búsqueda real de estas páginas.
 
 ### Anatomía de un himno
 
