@@ -12,7 +12,7 @@ export const SITE = {
   postPerPage: 12,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
   showArchives: true,
-  showInterpretes: true, // show/hide the Interpretes link in the nav
+  showInterpretes: true, // show/hide the Intérpretes link in the nav
   // Una pagina de interprete con muy pocos himnos es thin content: por debajo
   // de este umbral se genera igual (para navegar) pero se marca noindex.
   minPostsToIndexInterprete: 3,
@@ -31,7 +31,7 @@ export const SITE = {
   },
   editPost: {
     enabled: true,
-    text: "Edit this post",
+    text: "Editar este himno",
     url: "https://github.com/flinodev/music-repo/edit/main/",
   },
   dynamicOgImage: true,

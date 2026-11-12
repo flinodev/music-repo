@@ -28,7 +28,7 @@ const { page } = Astro.props;
 const totalPosts = page.total;
 ---
 
-<Layout title={`Posts | ${SITE.title}`}>
+<Layout title={`Himnos | ${SITE.title}`}>
   <Header />
   <Breadcrumb />
   <main id="main-content" class="app-layout pb-4">
@@ -40,13 +40,13 @@ const totalPosts = page.total;
       <div class="aurora-mouse" data-posts-mouse></div>
       <div class="relative z-10">
         <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">
-          <span class="glow-text">Posts</span>
+          <span class="glow-text">Himnos</span>
         </h1>
         <p class="mt-3 max-w-lg text-foreground/70 italic">
-          Todos los artículos que he publicado.
+          Todos los himnos con su letra, notas musicales y acordes.
         </p>
         <div class="mt-4 flex flex-wrap items-center gap-2">
-          <span class="hero-badge">{totalPosts} posts</span>
+          <span class="hero-badge">{totalPosts} himnos</span>
           {
             page.lastPage > 1 && (
               <span class="hero-badge">
@@ -85,9 +85,9 @@ const totalPosts = page.total;
                 <line x1="9" y1="15" x2="15" y2="15"></line>
               </svg>
             </div>
-            <h3 class="empty-title">Aún no hay posts</h3>
+            <h3 class="empty-title">Aún no hay himnos</h3>
             <p class="empty-desc">
-              Vuelve más tarde para leer nuestros próximos artículos.
+              Vuelve más tarde para ver los próximos himnos.
             </p>
           </div>
         ) : (

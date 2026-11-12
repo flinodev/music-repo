@@ -22,7 +22,20 @@ const decodeSegment = (value: string) => {
   }
 };
 
+// Las URLs se quedan en inglés para no romper enlaces ni SEO; solo cambia el
+// texto visible, que debe coincidir con el menú.
+const SEGMENT_LABELS: Record<string, string> = {
+  posts: "Himnos",
+  tags: "Temas",
+  interpretes: "Intérpretes",
+  archives: "Archivo",
+  search: "Buscar",
+};
+
 export const formatPathSegmentLabel = (segment: string, locale?: string) => {
+  const known = SEGMENT_LABELS[segment.toLowerCase()];
+  if (known) return known;
+
   const readable = decodeSegment(segment)
     .replace(/[-_]+/g, " ")
     .replace(/\s+/g, " ")

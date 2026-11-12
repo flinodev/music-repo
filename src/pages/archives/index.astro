@@ -44,7 +44,7 @@ const yearGroups = Object.entries(
 ).sort(([a], [b]) => Number(b) - Number(a));
 ---
 
-<Layout title={`Archives | ${SITE.title}`}>
+<Layout title={`Archivo | ${SITE.title}`}>
   <Header />
   <Breadcrumb />
   <main id="main-content" class="app-layout pb-12">
@@ -59,10 +59,10 @@ const yearGroups = Object.entries(
           <span class="glow-text">Archivo</span>
         </h1>
         <p class="mt-3 max-w-lg text-foreground/70 italic">
-          Un viaje por todo lo que he publicado, organizado en el tiempo.
+          Todos los himnos publicados, ordenados por fecha.
         </p>
         <div class="mt-4 flex flex-wrap items-center gap-2">
-          <span class="hero-badge">{totalPosts} posts</span>
+          <span class="hero-badge">{totalPosts} himnos</span>
           <span class="hero-badge"
             >{yearGroups.length}
             {yearGroups.length === 1 ? "año" : "años"}</span

@@ -92,14 +92,14 @@ const isActive = (path: string) => {
               <a
                 href="/posts"
                 class:list={["nav-link", { "nav-active": isActive("/posts") }]}
-                >Posts</a
+                >Himnos</a
               >
             </li>
             <li>
               <a
                 href="/tags"
                 class:list={["nav-link", { "nav-active": isActive("/tags") }]}
-                >Tags</a
+                >Temas</a
               >
             </li>
             {
@@ -112,7 +112,7 @@ const isActive = (path: string) => {
                       { "nav-active": isActive("/interpretes") },
                     ]}
                   >
-                    Interpretes
+                    Intérpretes
                   </a>
                 </li>
               )
@@ -136,7 +136,7 @@ const isActive = (path: string) => {
               <a
                 href="/search"
                 class:list={["nav-link", { "nav-active": isActive("/search") }]}
-                title="Ir a búsqueda">Search</a
+                title="Ir a búsqueda">Buscar</a
               >
             </li>
             {
@@ -148,11 +148,11 @@ const isActive = (path: string) => {
                       "nav-link",
                       { "nav-active": isActive("/archives") },
                     ]}
-                    title="Archives"
-                    aria-label="archives"
+                    title="Archivo"
+                    aria-label="Archivo"
                   >
                     <IconArchive class="hidden sm:inline-block" />
-                    <span class="sm:sr-only">Archives</span>
+                    <span class="sm:sr-only">Archivo</span>
                   </LinkButton>
                 </li>
               )

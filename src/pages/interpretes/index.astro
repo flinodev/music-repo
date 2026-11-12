@@ -29,7 +29,7 @@ const postsConInterprete = tagsWithCount.reduce((n, t) => n + t.count, 0);
 ---
 
 <Layout
-  title={`Interpretes | ${SITE.title}`}
+  title={`Intérpretes | ${SITE.title}`}
   description="Himnos agrupados por el grupo o la persona que los interpreta."
 >
   <Header />
@@ -43,7 +43,7 @@ const postsConInterprete = tagsWithCount.reduce((n, t) => n + t.count, 0);
       <div class="aurora-mouse-follow" data-aurora-mouse></div>
       <div class="relative z-10">
         <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">
-          <span class="glow-text">Interpretes</span>
+          <span class="glow-text">Intérpretes</span>
         </h1>
         <p class="mt-3 max-w-lg text-foreground/70 italic">
           Explora los himnos por quien los interpreta: grupos, duetos y
@@ -51,7 +51,7 @@ const postsConInterprete = tagsWithCount.reduce((n, t) => n + t.count, 0);
         </p>
         <div class="mt-4 flex items-center gap-2 text-sm text-foreground/50">
           <span class="hero-badge">
-            {tagsWithCount.length} interpretes
+            {tagsWithCount.length} intérpretes
           </span>
           <span class="hero-badge">
             {postsConInterprete} himnos
@@ -81,7 +81,7 @@ const postsConInterprete = tagsWithCount.reduce((n, t) => n + t.count, 0);
                 <div class="tag-count">
                   <span class="tag-count-number">{count}</span>
                   <span class="tag-count-label">
-                    {count === 1 ? "post" : "posts"}
+                    {count === 1 ? "himno" : "himnos"}
                   </span>
                 </div>
               </div>

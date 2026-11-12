@@ -17,7 +17,7 @@ const { page } = Astro.props;
     <nav
       class="mt-12 mb-8 flex items-center justify-center gap-4"
       role="navigation"
-      aria-label="Pagination Navigation"
+      aria-label="Paginación"
     >
       <LinkButton
         disabled={!page.url.prev}
@@ -26,7 +26,7 @@ const { page } = Astro.props;
           "pagination-btn select-none group/btn",
           { "opacity-50 pointer-events-none": !page.url.prev }
         ]}
-        aria-label="Goto Previous Page"
+        aria-label="Página anterior"
       >
         <span class="btn-icon-wrapper">
           <IconArrowLeft class="size-4.5 transition-transform duration-300 group-hover/btn:-translate-x-0.5" />
@@ -46,7 +46,7 @@ const { page } = Astro.props;
           "pagination-btn select-none group/btn",
           { "opacity-50 pointer-events-none": !page.url.next }
         ]}
-        aria-label="Goto Next Page"
+        aria-label="Página siguiente"
       >
         <span class="btn-icon-wrapper">
           <IconArrowRight class="size-4.5 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
