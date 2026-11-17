@@ -591,7 +591,8 @@ const nextPost =
         const siteLabel = siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
         const marginBox = 'font-family: Arial, sans-serif; font-size: 10px; color: #555;';
         const pageRule = [
-          '@page { margin: 15mm 12mm;',
+          // 8 mm a los lados: lo justo para el pie y para impresoras que no llegan al borde.
+          '@page { margin: 15mm 8mm;',
           tags.length ? ' @bottom-left { content: ' + cssString('Temática: ' + tags.join(' · ')) + '; ' + marginBox + ' }' : '',
           ' @bottom-center { content: ' + cssString(siteLabel) + '; ' + marginBox + ' }',
           ' @bottom-right { content: counter(page) "/" counter(pages); ' + marginBox + ' }',
@@ -608,7 +609,7 @@ const nextPost =
           'p { margin: 15px 0; font-size: 26px; font-family: Arial, sans-serif; line-height: 1.5; }',
           'div { font-size: 26px; font-family: Arial, sans-serif; line-height: 1.5; }',
           '.text-center { text-align: center; }',
-          '@media print { body { margin: 0; padding: 20px; font-size: 26px; line-height: 1.5; } p, div { font-size: 26px; line-height: 1.5; } }',
+          '@media print { body { margin: 0; padding: 20px 0; font-size: 26px; line-height: 1.5; } p, div { font-size: 26px; line-height: 1.5; } }',
           pageRule,
           '</style>',
           '</head><body>',
