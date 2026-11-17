@@ -31,6 +31,8 @@ export default defineConfig({
   // Intérpretes renombrados: la URL vieja ya estaba indexada.
   redirects: {
     "/interpretes/araceli-castillo-moreno": "/interpretes/araceli-castillo",
+    "/interpretes/conjunto-instrumental-phinnes":
+      "/interpretes/conjunto-musico-vocal-phinnes",
   },
   adapter: vercel({
     webAnalytics: {
