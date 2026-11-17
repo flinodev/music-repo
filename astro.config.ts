@@ -28,6 +28,10 @@ export default defineConfig({
   // las URLs sin slash: se fija "never" para que canonical, sitemap y Vercel
   // apunten todos a la misma variante.
   trailingSlash: "never",
+  // Intérpretes renombrados: la URL vieja ya estaba indexada.
+  redirects: {
+    "/interpretes/araceli-castillo-moreno": "/interpretes/araceli-castillo",
+  },
   adapter: vercel({
     webAnalytics: {
       enabled: true, // set to false when using @vercel/analytics@1.4.0
