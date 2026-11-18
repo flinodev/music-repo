@@ -1,5 +1,7 @@
 // Genera la descripción de YouTube de cada himno a partir de su .mdx: enlace al
 // post, tono, compás, intérprete, letra y hashtags con sus tags.
+// También una versión corta en shorts/: en los Shorts los enlaces no son
+// clickeables, así que basta con nombrar el sitio y dejar los hashtags.
 // Uso: npm run yt:descripciones [-- <carpeta-del-blog> <carpeta-de-salida>]
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync } from "fs";
 import { basename, join } from "path";
@@ -26,7 +28,7 @@ const list = (fm, name) => {
 const hashtag = tag => "#" + tag.replace(/[^\p{L}\p{N}]/gu, "");
 
 rmSync(outDir, { recursive: true, force: true });
-mkdirSync(outDir, { recursive: true });
+mkdirSync(join(outDir, "shorts"), { recursive: true });
 const skipped = [];
 let count = 0;
 
@@ -69,13 +71,16 @@ for (const file of readdirSync(blogDir)
     details || null,
     composer ? `Interpretado por: ${composer}` : null,
   ].filter(line => line !== null);
+  const hashtags = [...tags.map(hashtag), "#Himnos", "#MusicaCristiana"]
+    .slice(0, 5)
+    .join(" ");
   const footer = [
     "",
     "────────────",
     "music~repo — Letras, notas musicales y acordes de himnos espirituales.",
     SITE,
     "",
-    [...tags.map(hashtag), "#Himnos", "#MusicaCristiana"].slice(0, 5).join(" "),
+    hashtags,
   ];
   const build = body =>
     [...header, "", "LETRA", "", body, ...footer]
@@ -88,10 +93,22 @@ for (const file of readdirSync(blogDir)
   }
 
   writeFileSync(join(outDir, `${slug}.txt`), text + "\n");
+
+  const short = [
+    composer ? `${title} — ${composer}` : title,
+    "🎵 Letra completa, notas musicales y acordes en music-repo.com",
+    "",
+    `${hashtags} #Shorts`,
+  ]
+    .join("\n")
+    .replace(/[<>]/g, "");
+  writeFileSync(join(outDir, "shorts", `${slug}.txt`), short + "\n");
   count++;
 }
 
-process.stdout.write(`${count} descripciones generadas en ${outDir}/\n`);
+process.stdout.write(
+  `${count} descripciones generadas en ${outDir}/ (y su versión corta en ${outDir}/shorts/)\n`
+);
 if (skipped.length) {
   process.stdout.write(`Sin sección de letra (omitidos): ${skipped.join(", ")}\n`);
 }
